@@ -1,1 +1,184 @@
+MANAGING ACCESS CONTROL IN LINUX MACHINE
+
+
+Lab Scenario :
+
+      Access control assists in maintaining the integrity, confidentiality, and availability of the information and resources.
+
+
+Lab Objectives:
+
+      This lab demonstrates how to manage access control policies in a Linux machine. 
+      First, we will create local user accounts and groups on the system. 
+      Then, we will create directories and files where access control policies will be implemented.
+      Further, we will configure the ownership to these directories and files.
+
+
+Overview of Access Control :
+
+      The principles of access control describe the access permission levels of users in detail. By enabling access control process, the security of processes and resources can be ensured.
+
+
+Lab Tasks :
+
+    1.Firstly, we will create two sample users and two groups on this machine and also configure passwords for the two users.
+
+    In the left pane, under Activities list, click the Terminal icon to open the Terminal window.
+
+        If Software Updater pop-up appears, click Remind Me Later.
+
+    
+
+    2.In the Terminal window, type sudo su and press Enter to run the programs as a root user.
+
+        For eg : In the [sudo] password for bob field, type user@123 as a password and press Enter.
+
+        The password that you type will not be visible.
+
+   
+
+    3.Now, type useradd testuser01 and press Enter to create a new user.
+
+    
+
+    4.Type passwd testuser01 and press Enter to set password for the user (testuser01).
+
+         A New password field appears, type test@123 and Enter. In the Retype new password field, enter the same password (test@123) and press Enter to set the password. 
+          A message appears stating that the password updated successfully appears, as shown in the screenshot.
+
+        You can set the user password of your own choice.
+
+    
+
+    5.Similarly, perform steps#7-9 to create another user account with username testuser02 and password test@123.
+
+    
+
+    6.Now, we shall create a new group, to do so, type groupadd admin and press Enter.
+
+    
+
+    7.Similarly, create another group named team by issuing command groupadd team.
+
+    
+
+    8.In the terminal window, type usermod -aG admin testuser01 and press Enter to add user testuser01 to the group admin.
+
+        usermod command is used to modify the user object in order to add a user to the group.
+
+        Similarly, type usermod -aG team testuser02 and press Enter to add user testuser02 to the group team.
+
+    
+
+    9.Type id testuser01 and press Enter to verify that the user testuser01 is added to the group admin.
+
+    
+
+    10.Similarly, type id testuser02 and press Enter to verify that the user testuser02 is added to the group team.
+
+    
+
+    11.Now, we will create directories and files to demonstrate how the permissions are applied to them.
+
+    Execute the commands below to create three directories:
+
+        mkdir testdirectory
+
+        mkdir testdirectory/SecProjects
+
+        mkdir testdirectory/TeamProjects
+
+  
+
+    12.Now, execute the commands below to create two files:
+
+        touch testdirectory/SecProjects/networkreport.txt
+
+        touch testdirectory/TeamProjects/workreport.txt
+
+    
+
+    13.By default, the creator of the directories or resources controls access to the resources. Therefore, users and groups must be permitted to own the directory content which allows them to configure permissions.
+
+        In the terminal window, type ls -ld testdirectory and press Enter to display the permissions of testdirectory directory.
+
+        Here, root is the owner of the testdirectory, as shown in the screenshot.
+
+    
+
+    14.Now, we will execute the commands below to change the directory ownership to specfic users and groups:
+
+        The 'R' parameter allows you to change directory ownership recursively
+
+        chown -R testuser01:admin testdirectory/SecProjects
+
+        chown -R testuser02:team testdirectory/TeamProjects
+
+    
+
+    15.Type "ls -ld testdirectory/SecProjects" and press Enter to display users and groups associated with testdirectory/SecProjects.
+
+    16.Type "ls -ld testdirectory/TeamProjects" and press Enter to display users and groups associated with testdirectory/TeamProjects.
+
+    
+
+    17.Now, we will configure permissions for the directory owners.
+
+    In the terminal window, type "chmod u=rwx,g=rwx,o-r testdirectory/SecProjects" and press Enter to set the permission below for user testuser01.
+
+            Access Level 	       Directory 	             User 	   Group
+            rwxrwxo-r 	  testdirectory/SecProjects 	testuser01 	 admin
+
+  
+       -> Access Level Parameters: r: read a file or list a directory's contents, w: write to a file or directory, x: execute a file or recurse a directory tree.
+
+       -> Reference Parameters: u: user (file owner), g: group (members of the file's group), o: others (users who are neither the file's owner nor members of the file's group).
+
+       -> Here, rwx: read, write and execute permissions are given to u(user) and g(group), o-r: Read permission is removed for o (others).
+
+
+    18.In the terminal window, type chmod u=rwx,g=rwx,o=rx testdirectory/TeamProjects and press Enter to set the below permission for user testuser02.
+  
+            Access Level 	       Directory 	            User    	Group
+            rwxrwxrx 	   testdirectory/TeamProjects 	testuser02  team
+
+
+        Here, rwx: read, write and execute permissions are given to u(user) and g(group), rx: Read and execute permissions are given to o(others).
+
+    19.Now, that we have created the user accounts along with the specified resource access policies, we will test them.
+
+    20.Click on Add icon (+) present on top-left corner of the Terminal window or or Ctrl+Shift+T to open another terminal.
+
+
+
+    21.A new Terminal window appears, in another tab.
+
+    22.In this new Terminal window, type su testuser02 and press Enter.
+
+        su stands for substitute user, it is used to execute commands with the privileges of another user account.
+
+    23.A Password field appears, type test@123 and press Enter.
+
+        The password that you type will not be visible.
+
+    
+
+    24.In the terminal, type cd testdirectory/SecProjects and press Enter, to navigate to the SecProjects directory having only Admin privileges.
+
+    25.Type ls and press Enter to list the files present in the directory.
+
+        According to permissions specified in step#26, you can observe that the testuser02 does not have access to the directory content of testuser01. The testeruser02 being a normal user has limited access whereas testuser01 has admin level          privileges.
+
+    
+
+    As described above, a root user can create multiple useraccounts on the same machine with different level of access permissions, thereby, preventing unauthorized access to the system and resources.
+
+    Close all the opened windows.
+
+
+
+Question :
+
+Use a Linux machine (Attacker Machine) to implement access control policies. Create a user and group, and change the directory ownership to the user and group. 
+Enter the parameter of chown command that allows changing directory ownership recursively.
 

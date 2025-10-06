@@ -1,4 +1,4 @@
-Implementing Role-Based Access Control in Windows Admin Center (WAC)
+IMPLEMENTING ROLE-BASED ACCESS CONTROL IN WINDOWS ADMIN CENETER (WAC)
 
       Windows Admin Center (WAC) provides a web console to perform administrative tasks and manage different machines within the network.
 

@@ -1,7 +1,7 @@
 IMPLEMENTING PASSWORD POLICIES USING WINDOWS GROUP POLICY
 
 
-The Group Policy Management Console (GPMC) is a scriptable Microsoft Management Console (MMC) snap-in, providing a single administrative tool for managing group policy across the enterprise. GPMC is the standard tool for managing group policy.
+        The Group Policy Management Console (GPMC) is a scriptable Microsoft Management Console (MMC) snap-in, providing a single administrative tool for managing group policy across the enterprise. GPMC is the standard tool for managing group policy.
 
 
 

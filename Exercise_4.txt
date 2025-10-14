@@ -1,21 +1,30 @@
-Implementing Password Policies using Windows Group Policy
+IMPLEMENTING PASSWORD POLICIES USING WINDOWS GROUP POLICY
+
 
 The Group Policy Management Console (GPMC) is a scriptable Microsoft Management Console (MMC) snap-in, providing a single administrative tool for managing group policy across the enterprise. GPMC is the standard tool for managing group policy.
 
+
+
 Lab Scenario
 
-Network defenders can use the GPMC to manage group policy in the Active Directory (AD) across the enterprise. It can be used to protect user accounts and implement domain password policy to enable the use of complex and lengthy passwords. This prevents attackers from cracking the user account passwords through brute-force attacks. The network defender needs to configure group policy settings (group policy object, or GPO) in the AD domain to implement common password requirements.
+        Network defenders can use the GPMC to manage group policy in the Active Directory (AD) across the enterprise. It can be used to protect user accounts and implement domain password policy to enable the use of complex and lengthy passwords. This prevents attackers from cracking the user account passwords through brute-force attacks. The network defender needs to configure group policy settings (group policy object, or GPO) in the AD domain to implement common password requirements.
+
+
 
 Lab Objectives
 
-This lab demonstrates how to create a GPO from the GPMC; this group policy will implement a common password policy to enable the use of complex and lengthy passwords in the AD domain.
+        This lab demonstrates how to create a GPO from the GPMC; this group policy will implement a common password policy to enable the use of complex and lengthy passwords in the AD domain.
+
+
 
 Overview of the Group Policy
 
-Group policy allows the network defender to manage drive mappings, registry settings, local users and groups, services, files, and folders without the need to learn a scripting language. GPO can help configure password history, password age, password length, and complexity as well as store passwords using reversible encryption policies for users' passwords. The AD domain contains two default GPOs:
+        Group policy allows the network defender to manage drive mappings, registry settings, local users and groups, services, files, and folders without the need to learn a scripting language. GPO can help configure password history, password age, password length, and complexity as well as store passwords using reversible encryption policies for users' passwords. The AD domain contains two default GPOs:
 
     Default domain policy, which is linked to the domain
     Default domain controllers policy, which is linked to the domain controller's organizational unit (OU).
+
+
 
 Order of Processing Group Policies:
 
@@ -28,187 +37,189 @@ Order of Processing Group Policies:
 
     If there are conflicting group policies, the last applied policy is implemented.
 
+
+
 Lab Tasks
 
-    By default PfSense Firewall is selected, click AD Domain Controller to select AD Domain Controller machine. Click Ctrl+Alt+Delete.
+    1.By default PfSense Firewall is selected, click AD Domain Controller to select AD Domain Controller machine. Click Ctrl+Alt+Delete.
 
-    Screenshot
+    
 
-    By default NDE\Administrator account is selected, click admin@123 and press Enter to login.
+    2.By default NDE\Administrator account is selected, click admin@123 and press Enter to login.
 
         The network screen appears, click Yes.
 
-    Screenshot
+    
 
-    Launch Group Policy Management for creating a new password policy. To launch GPM, click Windows Start icon and navigate to Windows Administrative Tools --> Group Policy Management.
+    3.Launch Group Policy Management for creating a new password policy. To launch GPM, click Windows Start icon and navigate to Windows Administrative Tools --> Group Policy Management.
 
         Alternatively, you can launch Group Policy Management by typing gpmc.msc in Run. To open Run, right-click on Start and click Run.
 
-    Screenshot
+    
 
-    The Group Policy Management main window appears, as shown in the screenshot below. Expand the Forest: NDE.com domain tree.
+    4.The Group Policy Management main window appears, as shown in the screenshot below. Expand the Forest: NDE.com domain tree.
 
-    Screenshot
+    
 
-    To create a new GPO to implement password policies across the domain (NDE.com), under the Domains tree, right-click on the NDE.com domain, and select Create a GPO in this domain, and Link it here….
+    5.To create a new GPO to implement password policies across the domain (NDE.com), under the Domains tree, right-click on the NDE.com domain, and select Create a GPO in this domain, and Link it here….
 
-    Screenshot
+    
 
-    The New GPO window opens, type the name for the new GPO as "ECCPassword Policy" and click OK; use any name as per your requirement.
+    6.The New GPO window opens, type the name for the new GPO as "ECCPassword Policy" and click OK; use any name as per your requirement.
 
-    Screenshot
+    
 
-    A new GPO ECCPassword Policy will be created. Expand NDE.com to view the created GPO (ECCPasword Policy). To configure the settings for ECCPassword Policy, right-click on ECCPassword Policy and select Edit…
+    7.A new GPO ECCPassword Policy will be created. Expand NDE.com to view the created GPO (ECCPasword Policy). To configure the settings for ECCPassword Policy, right-click on ECCPassword Policy and select Edit…
 
-    Screenshot
+    
 
-    In the Group Policy Management Editor window, under Computer Configuration, expand Policies --> Windows Settings -> Security Settings --> Account Policies. Click on Password Policy; the password policies will be listed in the right pane.
+    8.In the Group Policy Management Editor window, under Computer Configuration, expand Policies --> Windows Settings -> Security Settings --> Account Policies. Click on Password Policy; the password policies will be listed in the right pane.
 
-    Screenshot
+    
 
-    Ensure that the created, or modified, the password does not contain the user's account name or parts of the user's full name-that is, exceeding two consecutive characters in the name-and is at least six characters in length; it must also contain English uppercase characters (A through Z), English lowercase characters (a through z), numeric 10 digits (0 through 9), and non-alphabetic characters such as !, $, #, and %. The password must meet the complexity requirements policy setting. To ensure this, double-click on the Password must meet complexity requirements policy in the right pane
+    9.Ensure that the created, or modified, the password does not contain the user's account name or parts of the user's full name-that is, exceeding two consecutive characters in the name-and is at least six characters in length; it must also contain English uppercase characters (A through Z), English lowercase characters (a through z), numeric 10 digits (0 through 9), and non-alphabetic characters such as !, $, #, and %. The password must meet the complexity requirements policy setting. To ensure this, double-click on the Password must meet complexity requirements policy in the right pane
 
-    Screenshot
+    
 
-    In the Password must meet complexity requirements Properties window, check Define this policy setting and select the Enabled radio button to enable the password complexity policy. You can click the Explain tab to view the details of the policy. Click Apply and then click OK to close the policy properties window
+    10.In the Password must meet complexity requirements Properties window, check Define this policy setting and select the Enabled radio button to enable the password complexity policy. You can click the Explain tab to view the details of the policy. Click Apply and then click OK to close the policy properties window
 
-    Screenshot
+    
 
-    Switch to Group Policy Management window. To ensure that the GPO is not overridden by other GPOs, and cannot be blocked from the parent container, enforce the created policy by right-clicking on ECCPassword Policy and selecting the Enforced option.
+    11.Switch to Group Policy Management window. To ensure that the GPO is not overridden by other GPOs, and cannot be blocked from the parent container, enforce the created policy by right-clicking on ECCPassword Policy and selecting the Enforced option.
 
-    Screenshot
+    
 
         If a Group Policy Management Console window appears click on OK
 
         If the link is already enabled, then skip this step.
 
-    Click on ECCPassword Policy and you can see that the policy has been enforced and linked, as shown in the screenshot.
+    12.Click on ECCPassword Policy and you can see that the policy has been enforced and linked, as shown in the screenshot.
 
         If a Group Policy Management Console window appears click on OK
 
-    Screenshot
+    
 
-    To select the users, groups, and computers to which the policy should apply, click Add… under the Security Filtering section of ECCPassword Policy.
+    13.To select the users, groups, and computers to which the policy should apply, click Add… under the Security Filtering section of ECCPassword Policy.
 
-    Screenshot
+    
 
-    The Select User, Computer, or Group window opens; you can apply this policy to the selected users, computer, or groups. Type "Martin" in the Enter the object name to select (examples) field and click Check Names button. When the system displays the user details of Martin, click OK.
+    14.The Select User, Computer, or Group window opens; you can apply this policy to the selected users, computer, or groups. Type "Martin" in the Enter the object name to select (examples) field and click Check Names button. When the system displays the user details of Martin, click OK.
 
-    Screenshot
+    
 
-    Once the GPO is applied to user Martin, you can view the user in the Security Filtering tab.
+    15.Once the GPO is applied to user Martin, you can view the user in the Security Filtering tab.
 
-    Screenshot
+    
 
-    To demonstrate the effect of the GPO for enforcing Password must meet complexity requirements, ensure that user Martin is forced to change the password at the next login.
+    16.To demonstrate the effect of the GPO for enforcing Password must meet complexity requirements, ensure that user Martin is forced to change the password at the next login.
 
     Close All opened windows.
 
-    To change user Martin's password settings, right-click on Windows Start icon and select Run option, type dsa.msc; then click OK. The Active Directory Users and Computers window will open.
+    17.To change user Martin's password settings, right-click on Windows Start icon and select Run option, type dsa.msc; then click OK. The Active Directory Users and Computers window will open.
 
-    Screenshot
 
-    Expand NDE.com and select Users, which shows the list of AD users; double-click on martin S.
 
-    Screenshot
+    18.Expand NDE.com and select Users, which shows the list of AD users; double-click on martin S.
 
-    The martin S. Properties window opens; click the Account tab. In Account options, check User must change password at next logon and uncheck Password never expires if it is checked. Click Apply and OK.
+    
 
-    Screenshot
+    19.The martin S. Properties window opens; click the Account tab. In Account options, check User must change password at next logon and uncheck Password never expires if it is checked. Click Apply and OK.
 
-    Click Web Server to select Web Server and click Ctrl+Alt+Delete.
+    
+
+    20.Click Web Server to select Web Server and click Ctrl+Alt+Delete.
 
     By default Admininstrator account is selected, type password as admin@123 and press the Enter button.
 
-    Screenshot
+    
 
-    Open File Explorer and right-click on This PC, select Properties.
+    21.Open File Explorer and right-click on This PC, select Properties.
 
         If Networks window will open, click on Yes.
 
         If Shutdown Event Tracker pop-up appears, click Cancel.
 
-    Screenshot
+    
 
-    The System window opens, Click Change settings.
+    22.The System window opens, Click Change settings.
 
-    Screenshot
+    
 
-    The System Properties window opens click Change….
+    23.The System Properties window opens click Change….
 
-    Screenshot
+    
 
-    The Computer Name/Domain Changes sub-window opens, select the Domain radio button, and type nde.com under the empty text box. Click OK.
+    24.The Computer Name/Domain Changes sub-window opens, select the Domain radio button, and type nde.com under the empty text box. Click OK.
 
-    Screenshot
 
-    The Window Security credential window opens, type username as nde\administrator and type password as admin@123 and click OK
 
-    Screenshot
+    25.The Window Security credential window opens, type username as nde\administrator and type password as admin@123 and click OK
 
-    Wait for few seconds, the welcome to nde.com popup appears, click OK
+    
 
-    Screenshot
+    26.Wait for few seconds, the welcome to nde.com popup appears, click OK
 
-    The restarting confirmation popup appears, Click OK.
+    
+
+    27.The restarting confirmation popup appears, Click OK.
 
     You will be back to System Properties window. Click Close.
 
     The Microsoft Windows message box opens, click Restart Now button to restart the system.
 
-    Screenshot
+    
 
-    The System will restart, Click Ctrl+Alt+Delete link to login.
+    28.The System will restart, Click Ctrl+Alt+Delete link to login.
 
-    Screenshot
+    
 
-    By default Admininstrator account is selected, type password as admin@123 and press the Enter button
+    29.By default Admininstrator account is selected, type password as admin@123 and press the Enter button
 
-    Screenshot
+    
 
-    Open Command Prompt and type command gpupdate /force, press Enter to update the group policy settings.
+    30.Open Command Prompt and type command gpupdate /force, press Enter to update the group policy settings.
 
         If you receive any errors while executing the command, then rerun the command.
 
-    Screenshot
+    
 
-    Group policy is now successfully updated; log out from Administrator account.
+    31.Group policy is now successfully updated; log out from Administrator account.
 
-    Screenshot
+    
 
-    To observe the effect of the created GPO, observe user Martin while changing the password to make it more complex and lengthy.
+    32.To observe the effect of the created GPO, observe user Martin while changing the password to make it more complex and lengthy.
 
     Click Ctrl+Alt+Delete Link to login.
 
-    Screenshot
+    
 
-    Next, Choose Other user, type username as martin@nde.com, password as user@123 and press Enter.
+    33.Next, Choose Other user, type username as martin@nde.com, password as user@123 and press Enter.
 
-    Screenshot
+    
 
-    Since you have altered the settings of user Martin to change password at the next login, you will be prompted to change the password as soon as you press Enter; click OK.
+    34.Since you have altered the settings of user Martin to change password at the next login, you will be prompted to change the password as soon as you press Enter; click OK.
 
-    Screenshot
+    
 
-    Type a simple password such as test123 without special characters as the new password, and then click the arrow button.
+    35.Type a simple password such as test123 without special characters as the new password, and then click the arrow button.
 
-    Screenshot
+    
 
-    The system will prompt unable to update the password. The value provided for the new password does not meet the length, complexity, or history requirements of the domain. Click OK
+    36.The system will prompt unable to update the password. The value provided for the new password does not meet the length, complexity, or history requirements of the domain. Click OK
 
-    Screenshot
+    
 
-    Retype the new password as Test@123. This attempt will be successful because it meets the complexity requirements.
+    37.Retype the new password as Test@123. This attempt will be successful because it meets the complexity requirements.
 
         In the Password field, enter user@123.
 
-    Screenshot
+    
 
-    Similarly, configure the other Password Policies according to the organization policies.
+    38.Similarly, configure the other Password Policies according to the organization policies.
 
-    Close all the opened windows.
+    39.Close all the opened windows.
 
-Question 3.1.1:
+Question :
 
 Create a new GPO to implement password policies across the domain (NDE.com) from Group Policy Management Console (GPMC) in the AD Domain Controller machine. Apply this policy to the user Martin. Enter the domain address of the user Martin.
 

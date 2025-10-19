@@ -1,1 +1,192 @@
-Wireless Network Security 
+WIRELESS NETWORK SECURITY
+
+Configuring Security on a Wireless Router :
+
+    A wireless router is a device that performs the functions of a router and includes the functions of a wireless access point.
+
+Lab Scenario :
+
+    Organizations allow wireless devices to connect to their network in today's environment (Bring Your Own Device or BYOD). However, the security of the network infrastructure is a major challenge for organizations while adopting wireless devices. A wireless router/access point is the main entry for attackers. Attackers compromise wireless access points to gain access to the organization's network. Organizations should ensure that their wireless access points are configured securely. As a network defender, you should be able to configure the wireless router securely by applying all possible hardening techniques.
+
+Lab Objectives :
+
+    This lab will demonstrate the various hardening techniques on a wireless router.
+
+Overview of Wireless Router Security : 
+
+    A wireless router is the first line of defense against attackers trying to access the organization's network. To prevent attackers from compromising the security of wireless routers, appropriate configuration changes need to be made in order to make a router more secure.
+
+    The above labs demonstrate the implementation of the same wireless network security controls on two different Wireless routers. These labs use cloud-based device simulators. It is observed that these simulators are not accessible in some geographical locations. If you cannot access the simulator in any of these labs with a "403 Forbidden" error, proceed to the next exercise.
+
+Lab Tasks :
+
+    1. By default PfSense Firewall is selected, click Web Server to launch Web Server machine. Click Ctrl+Alt+Delete.
+
+
+    2. By default Administrator account is selected, click admin@123 and press Enter to login.
+
+
+    3. Open Google chrome browser. Browse the Linksys Wireless router set up simulator available at https://ui.linksys.com/LegacyRouters/WRT54G/v8/ in your browser. Click No Thanks if prompted to turn on ad privacy.
+
+    
+    4. The Linksys router interface window will be displayed in the browser and click on 8.00.0 version button to launch WRT54G version 8.00.0. Close the support chatbot if it appears by clicking the X (Blue box).
+
+
+    5. Click on Setup and then on Basic Setup as shown in the screenshot below.
+
+  
+    6. Specify the Router name, Host name, and Domain name in Optional Settings (required by some ISPs) (here, we are taking Router Name as Linksys-Router Setup, Host Name as host1, Domain Name as domain 1)
+
+ 
+    7. Ensure that the Auto option is selected from the drop-down menu for MTU.
+
+
+    8. Provide the Local IP Address and Subnet Mask in the Router IP field. Set DHCP Server to Enable.
+
+    
+    9. Specify Starting IP Address and Maximum Number of DHCP Users. Type Client Lease Time in minutes.
+
+
+    10.Specify any three DNS server IP addresses in the Static DNS (1-3) fields.
+
+
+    11. Click on the Save Settings button to save all changes.
+
+
+    12. A prompt indicating that Settings are successful is displayed. Click on Continue.
+
+
+    13. Next, click on MAC Address Clone.
+
+
+    14. Ensure that MAC Clone is set to Disable.
+
+
+    15. Next, click on Advanced Routing.
+
+
+    16. Set the Operating Mode to Gateway.
+
+
+    17. Select a number from the Static Routing drop-down menu Select set number.
+
+
+    18. Enter the following details:
+        Router Name
+        Destination LAN IP
+        Subnet Mask
+        Default Gateway
+
+
+    19. Next, select an Interface from the drop-down menu (LAN & Wireless).
+
+
+    20. Click on Save Settings.
+
+
+    21. A prompt indicating that Settings are successful is displayed. Click on Continue.
+
+
+    22. Click on the Wireless tab in the menu bar.
+
+
+    23. Click on the Basic Wireless Settings tab.
+
+
+    24. Set Wireless SSID Broadcast to Disable.
+
+
+    25. Click on the Wireless Security tab next to the Basic Wireless Settings tab.
+
+
+    26. Select the strongest and most appropriate encryption mode from the drop-down menu for Security Mode as shown in the screenshot below.
+
+        Here, we consider WPA2 Personal as the strongest encryption mode for wireless security.
+
+
+    27. Select AES for WPA Algorithms, and enter a valid key value in the WPA Shared Key field.
+
+
+    28. Click on Save Settings.
+
+
+    29. A prompt indicating that Settings are successful is displayed. Click Continue.
+
+
+    30. Click on Wireless MAC Filter.
+
+
+    31. Set the Wireless MAC Filter option to Enable.
+
+
+    32. Next, go to the Security tab in order to enable firewall restrictions in the router.
+
+        Select the options Block Anonymous Internet Requests and Filter IDENT (Port 113).
+
+
+    33. Click on Access Restrictions.
+
+
+    34. Next, to configure the appropriate Internet access restrictions.
+
+    35. Select Applications & Gaming from the main menu. Enter the following details:
+        Application - Enter the name of the program.
+        Start / End - Enter the range of ports.
+        Protocol - Select any one of the protocols or both.
+        IP Address - Enter the IP address of the port receiving the port traffic.
+        Enable - Enable or disable the port forwarding rule.
+
+
+    36. Click on Save Settings, a prompt indicating that Settings are successful will be displayed. Click on Continue.
+
+
+    37. Next, click on the DMZ tab and set DMZ to Disable.
+
+
+    38. Next, click on the QoS tab and set QoS to Disable.
+
+
+    39. Click on Save Settings as shown in the screenshot below.
+
+
+    40. A prompt indicating that Settings are successful is displayed. Click on Continue.
+
+
+    41. Click on the Administration tab. Click on the Management tab under Administration.
+
+
+    42. In the Password field, set a very strong password for a wireless router.
+
+        Type a new password. Re-type the new password in the Re-enter to Confirm field.
+
+        Passwords should be changed periodically in order to restrict any unauthorized access to the wireless network
+
+
+    43. Next, in Web Access, set Access Server to HTTPS.
+
+
+    44. In Remote Router Access, set Remote Management to Disable.
+
+
+    45. Click on the Log tab under Administration.
+
+
+    46. Set Log to Enable as shown in the screenshot below.
+
+
+    47. Click on Save Settings.
+
+
+    48. A prompt indicating that Settings are successful is displayed. Click on Continue.
+
+
+    49. Next, click on Status from the menu bar.
+
+        As it is a simulation task explaining the configurations on the router page so the settings that have been shown in this task, will not get saved.
+
+
+    50. As described above, a network defender can make configuration changes in the wireless router interface to secure the wireless router.
+
+Question :
+
+Browse the Linksys Wireless router set up simulator (WRT54G version 8.00.0) available at https://ui.linksys.com/LegacyRouters/WRT54G/v8/ in the Web Server machine. Make configuration changes in the wireless router interface to secure the wireless router and prevent attackers from compromising the security of wireless routers. (No answer is required. Write 'skip' as an answer to skip this flag)

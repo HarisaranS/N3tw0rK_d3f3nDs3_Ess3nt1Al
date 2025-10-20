@@ -1,1 +1,384 @@
+Exercise 1: Securing IoT Device Communication using TLS/SSL
+
+Encrypted communication over TLS/SSL is the key to securing IoT Device Communication.
+Lab Scenario
+
+Network defenders must encrypt IoT device communication to prevent unauthorized users from viewing sensitive information
+Lab Objectives
+
+The objective of this lab is to demonstrate how to secure Internet of things (IoT) device communication using the Bevywise message queuing telemetry transport (MQTT) Broker and Simulator. This tool demonstrates the use of IoT devices over the virtual network. In this lab, you will learn to:
+
+    Install and configure the Bevywise MQTT Broker.
+    Implement transport layer security (TLS)/secure sockets layer (SSL) to secure IoT communication.
+
+Overview of the Bevywise IoT simulator
+
+MQTT is a lightweight messaging protocol that uses a publish/subscribe communication pattern. Since the protocol is meant for devices with a low-bandwidth, it is considered ideal for machine-to-machine (M2M) communication or IoT applications. We can create virtual IoT devices over the virtual network using the Bevywise IoT simulator on the client side and communicate these devices to the server using the MQTT Broker web interface. This interface collects data and displays the status and messages of connected devices over the network.
+
+Fig1.1.png
+
+    To install the MQTT Broker on the Web Server, click Web Server to launch WebServer machine, and then click Ctrl+Alt+Delete link to login.
+
+    Screenshot
+
+    By default Administrator account is selected, click admin@123 and press Enter to login.
+
+    Screenshot
+
+        If the network screen appears, click Yes.
+
+    Navigate to Z:\NDE Module 09 IoT Device Security\Bevywise IoT Simulator folder and double-click on the Bevywise_MQTTRoute_Win_64.exe file.
+
+    Screenshot
+
+    The Open File - Security Warning popup appears. Click Run.
+
+    The Setup - MQTTRoute 2.0 window opens. Select I accept the agreement and click on Next.
+
+    Screenshot
+
+    Select Destination Location page appears, without making any changes to the default installation location, click on Next.
+
+    In the next window, click Install to complete the installation.
+
+    Screenshot
+
+    The installation completes, click on Finish. Ensure that Launch Bevywise_MQTTRoute_Win_64 is checked.
+
+    Screenshot
+
+    The MQTTRoute will execute and the command prompt will appear. You can see the TCP port using 1883.
+
+    Screenshot
+
+    We have installed MQTT Broker successfully and leave the Bevywise MQTT running.
+
+    To create IoT devices, we must install the IoT simulator on the client machine.
+
+    Click Admin Machine-1 to launch AdminMachine-1 VM. Click Ctrl+Alt+Delete.
+
+    Screenshot
+
+    By default Admin account is selected, click admin@123 and press Enter to login.
+
+    Screenshot
+
+        If the network screen appears, click Yes.
+
+    Navigate to Z:\NDE-Tools\NDE Module 09 IoT Device Security\Bevywise IoT Simulator folder and double-click on the Bevywise_IoTSimulator_Win_64.exe file.
+
+    Screenshot
+
+    The User Account Control popup appears. Click on Yes.
+
+    The Setup-IoTSimulator 2.1 setup wizard opens. Select I accept the agreement and click on Next to continue.
+
+    Screenshot
+
+    Keeping the default destination unchanged, click on Next.
+
+    The Ready to install screen appears, click on Install
+
+    Screenshot
+
+    Click on Finish to complete the installation.
+
+    Screenshot
+
+    Bevywise IoT Simulator is installed successfully. To launch the IoT simulator, navigate to the C:\Bevywise\IotSimulator\bin directory and double-click on the runsimulator.bat file.
+
+    Screenshot
+
+    Upon double-clicking the runsimulator.bat file opens in the command prompt. If How do you want to open this? pop-up appears, select Microsoft Edge browser and click OK to open the URL http://127.0.0.1:9000/setnetwork?network=HEALTH_CARE.
+
+        If the URL directly opens in Microsoft Edge browser, then continue.
+
+    The web interface of the IoT Simulator opens in Edge browser. In the IoT Simulator, you can view the default network named HEALTH_CARE and several devices.
+
+    Screenshot
+
+    Next, we will create a virtual IoT network and virtual IoT devices. Click on the menu icon and select the +New Network option.
+
+    new6.jpg
+
+    The Create New Network popup appears. Type any name (here, NDE_FINANCE_NETWORK) and description. Click on Create.
+
+    docker009.jpg
+
+    In the next screen, we will setup the Simulator Settings. Set the Broker IP Address as 10.10.1.16 (the IP address of the Web Server ). Since we have installed the Broker on the web server, the created network will interact with the server using MQTT Broker. Do not change default settings and click on Save.
+
+    Screenshot
+
+    To proceed with the network creation, click on Yes.
+
+    Screenshot
+
+        If Configuration Saved pop-up appears. Click on OK to continue. This step completes the creation of the virtual IoT network.
+
+    To add IoT devices to the created network, click on the Add blank Device button.
+
+    Screenshot
+
+    The Create New Device popup opens. Type the device name (here, we use Temperature_Sensor), enter Device Id (here, we use TS1), provide a Description and click on Save.
+
+    Screenshot
+
+    The device will be added to the NDE_FINANCE_NETWORK.
+
+    Screenshot
+
+    To connect the Network and the added devices to the server or Broker, click on the Start Network red color circular icon in right corner.
+
+    Screenshot
+
+    When a connection is established between the network and the added devices and the web server or the MQTT Broker, the red button turns into green.
+
+    Screenshot
+
+    Next, switch to the Web Server VM. Since the Broker was left running, you can see a connection request from machine 10.10.1.2 for the device TS1.
+
+    new7.jpg
+
+    Switch back to Admin Machine-1 VM.
+
+    Next, we will create the Subscribe command for the device Temperature_Sensor.
+
+    Click on the Plus icon in the top right corner and select the Subscribe to Command option.
+
+    new8.jpg
+
+    The Subscribe for command - TS1 popup opens. Select On start under the Subscribe on tab, type High_Tempe under the Topic tab, and select 1 Atleast once below the Qos option. Click on Save.
+
+    Screenshot
+
+    Scroll down the page, you can see the Topic added under the Subscribe to Commands section.
+
+    new9.jpg
+
+    Next, we will capture the traffic between the virtual IoT network and the MQTT Broker to monitor the secure communication.
+
+    Minimise the Edge browser. Click on Type here to search at the bottom left of the desktop, type wireshark and select Wireshark from the results to launch the Wireshark from the application list.
+
+    Screenshot
+
+    The Wireshark Application window appears, select the Ethernet as interface.
+
+        Make sure you have selected interface which has 10.10.1.2 as the IP address.
+
+        If Software update popup appears click on Skip this version.
+
+    Screenshot
+
+    Click on the Start Wireshark icon to start the capturing packets, leave the Wireshark running.
+
+    Leave the IoT simulator running and switch to the Web Server VM.
+
+    Minimise all opened applications and windows, Open Chrome browser, type http://localhost:8080 and press Enter.
+
+        Do not use Internet Explorer web browser to open the above URL.
+
+    Screenshot
+
+    As soon as you press Enter, the MQTTRoute Sign in page appears, keep the default credential unchanged and click on SIGN IN.
+
+    Screenshot
+
+    Navigate to Devices menu. You will be able to see the connected device TS1 in the left pane.
+
+    Screenshot
+
+    Now, we will send the command to TS1 using the High_Tempe topic.
+
+    Go to the Command Send section, select Topic as High_Tempe, type Alert for High Temperature and click on the Send button.
+
+    docker10.jpg
+
+    The alert popup appears, then click on OK.
+
+    Screenshot
+
+    The message has been sent to the device using this topic.
+
+    Next, switch to Admin Machine-1 VM.
+
+    We have left the IoT simulator running in the web browser. To see the alert message, maximise the Edge browser and expand the arrow under the connected Temperature_Sensor, Device Log section.
+
+    Screenshot
+
+    You can see the alert message "Alert for Hight Temperature"
+
+    Screenshot
+
+    To verify the communication, we have executed Wireshark application, switch to the Wireshark traffic capturing window.
+
+    Type tcp.port==1883 under the filter field and press Enter. The captured traffic will be filtered.
+
+    Screenshot
+
+    Search for Published Message, under info column of Wireshark and right-click.
+
+    Screenshot
+
+    From the popup, select Follow-->TCP Stream.
+
+    Screenshot
+
+    You can view the message sent from the server to IoT devices, in clear plain text. The attacker can intercept the communication between the server and the device.
+
+    Screenshot
+
+    Click on Close to exit the opened window and click green color fin icon to restart Wireshark. If the Unsaved-packets… popup appears, click on Continue without saving.
+
+    Screenshot
+
+    Next, using self-signed certificates, we will implement TLS/SSL on the virtual network to ensure a secure communication between the device and the server.
+
+    In this lab, we are using the default certificate provided by Bevywise MQTT Broker.
+
+        You can use openssl for creating a self-signed certificate.
+
+    To configure the MQTT Broker for the TLS/SSL communication, switch to the Web Server VM.
+
+    Close the opened Chrome Browser, Switch to the running MQTTRoute Broker in the command prompt and close the command prompt by pressing CTRL+C two times.
+
+    Navigate to the C:\Bevywise\MQTTRoute\conf folder and right-click on the broker.conf file. Click on Edit with Notepad++.
+
+    Screenshot
+
+    The broker.conf file opens in Notepad++, go to line no. 25 and change TLS_ENABLED=FALSE to TLS_ENABLED=TRUE and click on Save and close the file.
+
+        If Notepad++ update pop-up appears, click No.
+
+    new11.jpg
+
+    Navigate to C:\Bevywise\MQTTRoute\bin and double-click on the runbroker.bat file.
+
+    Screenshot
+
+    Upon the execution of the Bevywise MQTTRoute Broker, you will find the TCP port using 8883 for communicating with the IoT virtual network devices over TLS/SSL communication.
+
+    Screenshot
+
+    Leave the Bevywise MQTTRoute Broker running. To copy the certificates from the server to the client, navigate to C:\Bevywise\MQTTRoute\Certificate and copy the Client and root folders.
+
+    Screenshot
+
+    Navigate to Z:\NDE-Tools\NDE Module 09 IoT Device Security\ and press Enter. Paste the copied client, root folders.
+
+    Screenshot
+
+    Switch to Admin Machine-1 VM.
+
+    Minimise the Wireshark running. Navigate to C:\Bevywise\IotSimulator\Certificate and delete the existing client and root folders.
+
+    Screenshot
+
+    Open File Explorer and navigate to Z:\NDE-Tools\NDE Module 09 IoT Device Security\ and copy the client and root folders.
+
+    Screenshot
+
+    Again navigate to C:\Bevywise\IotSimulator\Certificate and paste the copied client and root folders here.
+
+    Screenshot
+
+    We have shared the certificate and root key from server to the client machine (Web server to Admin Machine-1) for secure communication of the IoT simulator.
+
+    To connect to the virtual IoT network and change the network configuration to TLS\SSL, switch to the running IoT simulator in command prompt and press CTRL+C twice.
+
+    This will generate a prompt for shutting down the simulator. Type Y and press Enter to close the command prompt. Close the browser running the IoT simulator.
+
+    Screenshot
+
+    Now we will re-run the IoT simulator. Navigate to C:\Bevywise\IotSimulator\bin and double-click on the runsimulator.bat file.
+
+    Screenshot
+
+    Double-clicking the runsimulator.bat file will open the IoT simulator in the default web browser.
+
+    Screenshot
+
+    The default network is connected. To switch to NDE_FINANCE_NETWORK, click on the menu icon and select Existing Network.
+
+    new12.jpg
+
+    Choose Network popup appears. Under the Choose Network, select NDE_FINANCE_NETWORK and click on Open.
+
+    Screenshot
+
+    Click on the setting set.jpg icon to change the network setting.
+
+    The Simulator Settings window appears. Click Enabled the TLS/SSL. This will automatically change the Broker Port to 8883. Click on Save.
+
+    Screenshot
+
+    The Configuration Saved popup appears. Click OK.
+
+    Next, we will start the network. Click on the red button 2.jpg in the top right corner.
+
+    The red button turns into green 3.jpg, indicating both the network connection and the device connection.
+
+    Screenshot
+
+    Leave the IoT simulator running.
+
+    Switch to the Web Server VM.
+
+    Open Chrome browser and type http://localhost:8080 and press Enter. This will redirect you to the MQTTRoute sign-in page. Keeping the default credentials unchanged, click on SIGN IN.
+
+    Screenshot
+
+    Select the Devices menu to see the connected device TS1.
+
+    Screenshot
+
+    Next, we will send the same command to TS1 using the High_Tempe topic.
+
+    Go to the Command Send section, select High_Tempe under the Topic tab, type "This is second alert for High Temperature" in the message tab and click on Send.
+
+    docker11.jpg
+
+    The alert popup appears. Click OK. The message is sent to the device using this topic.
+
+    docker12.jpg
+
+    Next, switch to Admin Machine-1 VM.
+
+    We have left the IoT simulator running. To see the alert message, Select Temperature_Sensor IoT device expand the arrow under the Device Log section.
+
+    new14.jpg
+
+    You can see the alert message as we sent form Web Server "This is second alert for High Temperature".
+
+    docker.013.jpg
+
+    We have left the Wireshark running to verify the communication. Switch to running Wireshark application, click stop the traffic capturing.
+
+    To filter the traffic, type ip.src==10.10.1.16 && ip.dst==10.10.1.2 in the filter field and press Enter.
+
+    Screenshot
+
+    Click on column Info heading of the Wireshark filter table.
+
+    Screenshot
+
+    The packets will be sorted, select any TLSv1.2 as protocol and Application Data as info packet.
+
+    new15.jpg
+
+    You can find the details of the encrypted Application data under the Transport Layer,
+
+    Screenshot
+
+    new16.jpg
+
+    By implementing the aforementioned steps, the network defender can securely configure the IoT devices and protect them from malware infections within the network.
+
+    Close all open windows.
+
+Question 9.1.1:
+
+Install and configure Bevywise MQTT Broker on the Web Server machine and IoT simulator on Admin Machine-1. Both tools are available at Z:\NDE-Tools\NDE Module 09 IoT Device Security\Bevywise IoT Simulator on the client Admin Machine-1. Implement transport layer security (TLS)/secure sockets layer (SSL) on the virtual network. Enter the TCP port number used to communicate with the IoT virtual network devices over TLS/SSL communication.
+
+
+30 Minutes Remaining
 

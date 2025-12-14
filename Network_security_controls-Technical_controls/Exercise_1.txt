@@ -1,0 +1,79 @@
+Implementing Host-Based Firewall Protection with iptables
+Iptables is a command-line firewall utility that uses policy chains to allow or block traffic.
+
+Lab Scenario :
+
+    As a network defender, you should know how to configure an iptables host-based firewall to allow or block traffic to or from a Linux system. Iptables allow network defenders to enter firewall rules into the existing tables using the command line.
+
+Lab Objectives : 
+
+    This lab will demonstrate how to configure an iptables host-based firewall in an Ubuntu machine.
+
+Overview of iptables :
+
+    Iptables is a standard firewall included in most Linux distributions. With the default chain policies configured, you can start adding rules to iptables, so that it knows what to do when it encounters a connection from or to a particular IP address or port.
+
+Lab Tasks :
+
+    By default PfSense Firewall is selected, Click Attacker Machine to launch Attacker Machine.
+
+    1. Select User Bob and type password user@123 press the Enter button.
+
+    2. Open the Firefox web browser, type www.google.com in the URL, and press Enter.
+
+        If a notification appears at the top section of a browser window, click Okay, Got it and in Before you continue to Google Search wizard, click I agree button.
+
+
+    3. Bob is able to access the website, which implies that Bob has internet access. A network defender can block internet access on the user machine using iptables.
+
+        Press ALT + CTL + T to open the terminal, type the sudo su command for the root user, and press Enter.
+
+        When prompted for the password, type the password for the root user (here the root user password is user@123), and hit Enter.
+
+
+
+    4. Next, to identify the user ID for Bob, type id bob in the terminal and press the Enter button. The user id displays as shown in the screenshot
+
+
+
+      Note down the user id (uid) for Bob (here 1000).
+
+      Further, we use the iptables command for network management activity.
+
+      Type iptables -L and press Enter to check the existing rules for users.
+
+
+
+    5. No rules exist currently. Next, we will create a new rule with the following command for the user Bob.
+
+        Type iptables -A OUTPUT - o eth0 -m owner --uid-owner 1000 -j DROP as shown in the screenshot below, and hit Enter.
+
+
+
+    6. The rule will be applicable only for the user Bob who has 1000 as the UID, as we have already noted.
+
+        Test the Internet connection to check whether or not the iptables rule is applied.
+
+        Open the browser, type www.google.com, and press the Enter button.
+
+
+
+    7. Now switch back to the terminal window and type iptables -t filter --delete OUTPUT 1 in the terminal window and hit Enter.
+
+
+    8. This will delete the rule which was created in step 12 and to enable Internet connection to user Bob, to check the rule type iptables -L and press Enter.
+
+
+    9. No rules exist currently, We have successfully deleted the rule, now we will check for connectivity.
+
+        Open the browser, type www.google.com, and press the Enter button.
+
+
+
+    10. As shown in the above screenshot user Bob can now access Internet.
+
+        Close all open windows.
+
+Question :
+
+Configure an iptables host-based firewall in an Ubuntu machine (Attacker Machine) to allow or block traffic to or from a system. Block Internet access for user Bob. Enter user id (uid) of Bob.

@@ -1,0 +1,213 @@
+Exercise 2: Implementing Host-Based Firewall Functionality using Windows Firewall
+A host-based firewall protects the system from various threats. Configuring a host-based firewall will help achieve the real security implementation and Defense in Depth within an organization. The normal strategy of a host-based firewall is to provide defense-in-depth and use a combination of layers of protection within the organization.
+
+Lab Scenario
+
+    Network defenders implemented various security layers in the organization; a single breach in security can allow the attacker to leave malicious code or transfer the malicious file over the network. Host-based firewall implementation is another security layer where the admin can allow or restrict specific individual endpoints. In this lab, you will configure a host-based firewall to protect the individual system connected to the network.
+
+Lab Objectives
+
+    This lab will demonstrate how to secure an individual endpoint within the network. In this lab, you will learn how to do the following:
+
+    Hardening the host within the network
+    Applying rules in a host-based firewall
+    Overview of a Host-based Firewall
+
+    A host-based firewall is a software that makes the system or device secure. An example is the Windows firewall, which is inbuilt in the Windows platform. The Windows firewall developed by Microsoft Windows is an application that filters the incoming and outgoing Internet traffic and blocks the malicious program communicating to the individual endpoint. The Windows firewall (host-based) protects the individual endpoint over the network from various threats, viruses, and malware.
+
+Lab Tasks
+
+    1. Click Admin Machine-1. to launch AdminMachine-1 VM. Click Ctrl+Alt+Delete
+
+
+    2. By default Admin account is selected, click admin@123 and press Enter to login.
+
+
+    3. If the network screen appears, click Yes.
+
+      Navigate to the Windows Start menu, type Remote Desktop Connection, and press Enter.
+
+
+    4. The Remote Desktop Connection window will appear as shown in the screenshot below. Type the 10.10.1.16 IP address of the Web Server VM and click Connect.
+
+
+
+    5.The Windows Security pop-up window will appear. Type the username Administrator and password admin@123, and click OK
+
+
+    6.The Security Certificate pop-up will appear as shown in the screenshot below. Click Yes.
+
+
+    7.After clicking Yes, you will see the Web Server VM as 10.10.1.16 - Remote Desktop Connection in the Admin-Machine-1 VM.
+
+
+    8.Click Restore down button of Remote Desktop window, to view connected desktop properly.
+
+
+    9. In the previous task, we were able to access the Windows machine remotely because there was no restriction for the individual system; therefore, another machine can access this machine remotely. A network defender needs to apply a host-based firewall on an individual machine to prevent the machine from being accessed remotely.
+
+        Switch to the Web Server VM. Click Ctrl+Alt+Delete.
+
+
+    10. By default Administrator account is selected, click admin@123 and press Enter to login.
+
+
+    11. Open control panel.
+
+        Click the System and Security option.
+
+
+    12. The System and Security windows will appear. Click Windows Firewall.
+
+
+    13. The Windows Firewall window opens. Click Use recommended settings.
+
+
+    14. The Windows Defender Firewall is turned on for Domain, Private, and Guest or Public network settings as shown in the screenshot below.
+
+
+    15. Click Advanced Settings in the left pane. The Windows Firewall With Advance Security window opens.
+
+
+    16. Click Inbound Rules option in the left side pane. The list of rules appears.
+
+
+    17. Search for Remote Desktop- Shadow (TCP-In) and double-click.
+
+
+    18. The Remote Desktop- Shadow (TCP-in) Properties window opens. Check radio button Block the connection and click OK.
+
+
+    19. Next, search for Remote Desktop- User Mode (TCP-In) and double-click.
+
+
+    20. The Remote Desktop- User Mode (TCP-in) Properties window opens. Check radio button Block the connection and click OK.
+
+
+    21. Next, search for Remote Desktop- User Mode (UDP-In) and double-click.
+
+
+    22. The Remote Desktop- User Mode (UDP-in) Properties window opens. Check radio button Block the connection and click OK.
+
+    
+    23. Now, we have blocked the Remote Desktop inbound connection. Let us verify the blocking connection.
+
+
+    24. Close all the opened windows.
+
+        Switch to Admin Machine-1 VM.
+
+        The Previous session will end. Click OK.
+
+
+    25. Next, try to access Web Server VM remotely. Type the 10.10.1.16 IP address of the Web Server VM in opened Remote Desktop connection window and click Connect.
+
+
+
+    26.This time, you will not be able to connect the Remote Desktop for 10.10.1.16.
+
+        The host-based Windows firewall on host 10.10.1.16 will not allow the other host (Admin-Machine-1) to communicate with unchecked programs listed in the allowed app of the firewall in Web Server host (10.10.1.16).
+
+        You will get the error message shown in the screenshot below.
+
+
+    27. Now we will try to connect to Web Server using FTP connection.
+
+        Click on Web Server to switch to Web Server.
+
+
+     28. Open control panel.
+
+        Click the System and Security option.
+
+
+    29. The System and Security windows will appear. Click Windows Firewall.
+
+
+    30. The Windows Firewall window opens. Click Turn Windows Firewall on or off.
+
+
+    31. In the Customize Settings window select Turn off Windows Firewall under Private and Public networks and click OK.
+
+
+    32. Close all open windows.
+
+        Switch to Admin Machine-1 VM.
+
+
+    33. Navigate to the Windows Start menu, type Command Prompt, and press Enter to open a Command Prompt window.
+
+
+    34. In the Command Prompt window type ftp 10.10.1.16 It will ask for Username and Password for Login.
+
+
+    35. Enter Administrator in the User field and admin@123 in the Password field to login to ftp. You will be succcessfully logged in to ftp .
+
+
+    36. Close the Command Prompt window.
+
+        Click on Web Server to switch to Web Server.
+
+
+    37.Open control panel.
+
+        Click the System and Security option.
+
+
+    38. The System and Security windows will appear. Click Windows Firewall.
+
+
+    39. The Windows Firewall window opens. Click Use recommended settings.
+
+
+    40. The Windows Defender Firewall is turned on for Domain, Private, and Guest or Public network settings as shown in the screenshot below.
+
+    
+    41. Click Advanced Settings in the left pane. The Windows Firewall With Advance Security window opens.
+
+
+    42. Click Inbound Rules option in the left side pane. The list of rules appears.
+
+
+    43. Search for FTP Server (FTP Traffic-In) and double-click.
+
+
+    44.The FTP Server (FTP Traffic-In) Properties window opens. Check radio button Block the connection and click OK.
+
+
+    45. Next, search for FTP Server Passive (FTP Passive Traffic-IN) and double-click.
+
+
+    46. The FTP Server Passive (FTP Passive Traffic-IN) Properties window opens. Check radio button Block the connection and click OK.
+
+
+    47. Next, search for FTP Server Secure (FTP SSL Traffic-In) and double-click.
+
+
+    48. The FTP Server Secure (FTP SSL Traffic-In) Properties window opens. Check radio button Block the connection and click OK.
+
+
+    49. Now, we have blocked the FTP inbound connection. Let us verify the blocking connection.
+
+        Close all the opened windows.
+
+        Switch to Admin Machine-1 VM.
+
+
+
+    50. Navigate to the Windows Start menu, type Command Prompt, and press Enter to open a Command Prompt window.
+
+
+    51. In the Command Prompt window type ftp 10.10.1.16, We will get Connection timed out error message.
+
+        We have successfully blocked the ftp connection to Web Server.
+
+        Click onWeb Server to switch to Web Server. Navigate to Control Panel->System and Security-> Windows Firewall and follow steps 52 to step 59 and click on Allow the connection in the FTP Server (FTP Traffic-In) Properties, FTP Server Passive (FTP Passive Traffic-IN) Properties and FTP Server Secure (FTP SSL Traffic-In) Properties windows.
+
+        Follow steps 36 to step 39 to Turn off the firewall in WebServer machine.
+
+        Close all open windows.
+
+Question 
+
+Use the Web Server machine to implement a host-based firewall to prevent the machine from being accessed remotely. Block the remote desktop inbound connection from the Inbound Rules option of Windows Firewall in the Web Server machine. Enter the number of Inbound rules you need to block to prevent the machine from being accessed remotely.

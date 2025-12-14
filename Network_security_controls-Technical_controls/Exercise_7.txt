@@ -1,0 +1,108 @@
+Exercise 7: Detect Malicious Network Traffic using HoneyBOT
+
+Lab Scenario
+
+    Network traffic is the amount of data packets passing through a network.
+
+Lab Objectives
+
+    This lab demonstrates how to detect malicious network traffic using HoneyBot.
+
+Overview of Network Traffic
+
+    Normal traffic behavior is based on various behavioral attributes such as normal email activity, reasonable number of failed attempts and normal processor usage. Any activity that does not match normal behavior can be treated as an attack.
+
+Lab Tasks
+        
+        1.If you are already logged into the Admin Machine-1, then skip to Step#3.
+        
+        2. Click Admin Machine-1 to select Admin Machine-1 machine.
+        
+        
+        3. Click Ctrl+Alt+Delete. By default Admin account is selected, click admin@123 and press Enter to login.
+        
+        
+        4. If the network screen appears, click Yes.
+        
+            Navigate to Z:\NDE-Tools\NDE Module 05 Network Security Controls - Technical Controls\Honeypot Tools\HoneyBOT. Double-click HoneyBOT_018.exe to launch the HoneyBOT installer. Follow the wizard-driven steps to install HoneyBOT.
+        
+            if the User Account Control window appears, click Yes.
+        
+        
+        5. Once the installation of HoneyBOT completes, in the Completing the HoneyBot Setup Wizard window, uncheck the Launch HoneyBOT option,click Finish.
+        
+        
+        6. Now, click the Start icon from the left-bottom of Desktop. Under Recently added applications, right-click HoneyBOT --> More --> Run as administrator, as shown in the screenshot.
+        
+            if the User Account Control window appears, click Yes.
+        
+        
+        7. The HoneyBOT configuration pop-up appears; click Yes to configure HoneyBOT.
+        
+        
+        8. The HoneyBOT Options window appears with default options checked on the General settings tab. Leave the default settings or modify them accordingly.
+        
+        9. In this task, we are leaving the settings on default for the General tab in the Options window.
+        
+        
+        10. Click the Email Alert tab; if you want HoneyBOT to send you email alerts, check Send Email Alerts, and fill in the respective fields.
+        
+        11. In this task, we will not be providing any details for email alerts.
+        
+        
+        12. On the Exports tab, in which you can export the logs recorded by HoneyBOT, choose the required option to view the reports, and then proceed to the next step. (here, Export Logs to CSV and Upload Logs to Server checkbox are selected)
+        
+        
+        13. On the Updates tab, uncheck Check for Updates; click Apply and click OK to continue.
+        
+        14. If a Bindings pop-up appears, click OK to continue.
+        
+        
+        15. The HoneyBOT main window appears, as shown in the screenshot.
+        
+        
+        16. Now, leave the HoneyBOT window running on Admin Machine-1 VM.
+        
+              Click Attacker Machine to launch AttackerMachine VM.
+        
+              Select User Bob and type password user@123 press the Enter button.
+        
+        
+        17 .Press ALT + CTL + T to open the terminal, type the sudo su command for the root user, and press Enter.
+        
+              When prompted for the password, type the password for the root user (here the root user password is user@123), and hit Enter.
+        
+        
+        18. In the terminal window; type ftp [IP Address of the Admin Machine-1] and press Enter.
+        
+              You will be prompted for the ftp credentials of the Admin Machine-1 machine.
+        
+              In this task, the IP address of Admin Machine-1 is 10.10.1.2; this may differ in your lab environment.
+        
+        
+        19. Click Admin Machine-1 to switch back to the Admin Machine-1 VM. In the HoneyBOT window, expand the Ports and Remotes node from the left-pane.
+        
+            Under Ports, you can see the port numbers from which Admin Machine-1 received requests or attacks.
+        
+            Under Remotes, you can view the recorded IP addresses through which Admin Machine-1 received requests.
+        
+        
+        20. Now, right-click any IP address or Port on the left, and click View Details, as shown in the screenshot, to view the complete details of the request or attack recorded by HoneyBOT.
+        
+        
+        21. The Packet Log window appears, as shown in the screenshot. This displays the complete log details of the request captured by HoneyBOT.
+        
+              In the screenshot, under Connection Details, you can view the Date and Time of the connection established as well as the protocol used.
+        
+              Connection Details also shows the Source IP, Port, and Server Port, as shown below.
+        
+        
+        22. Simultaneously, you can run the telnet command on the AttackerMachine machine and observe the log recorded by HoneyBOT on Admin Machine-1.
+        
+              After the completion of this task, revert the machines Admin Machine-1 and Attacker Machine.Then, continue with the next lab.
+        
+              To revert the machines, go to the top-left corner of the screen where you'll find the Power and Display button. Click on it, and you will see the Revert Machine option. Revert both machines from there.
+
+Question 
+
+Install HoneyBOT tool available at Z:\NDE Module 05 Network Security Controls - Technical Controls\Honeypot Tools\HoneyBOT on Admin Machine-1 to detect malicious network traffic. Try to connect to Admin Machine-1 using a telnet connection through the Ubuntu machine (Attacker Machine) and observe the received packet in the HoneyBOT window. Enter the machine's IP address entered in Attacker Machine to connect to Admin Machine-1.

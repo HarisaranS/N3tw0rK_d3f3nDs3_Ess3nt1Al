@@ -1,0 +1,163 @@
+Exercise 3: Implementing Network-Based Firewall Functionality: Blocking Unwanted Website Access using pfSense Firewall
+
+The pfSense firewall/router is the world's most trusted open-source network security solution software. A network defender can use the pfSense firewall to manage network security easily.
+
+Lab Scenario
+
+    To prevent users from visiting malicious websites and to secure against phishing attacks, network defenders need to block known malicious websites and protect the network from various viruses and malware. As a security measure organizations to prevent employees from accessing unwanted websites for employees.
+
+Lab Objectives
+
+    The lab will demonstrate how to use the pfSense firewall alias to block access to unwanted websites. If we implement one rule per host, the number of rules will be greater and more difficult to manage. Using an alias for multiple hosts requires the use of only one rule.
+
+Overview of pfSense Firewall
+
+    pfSense is a free, open-source Operating System that functions like a firewall, intrusion detection system, and router. Firewall features are integrated into pfSense, and it contains basic firewall rules and firewall logs.
+
+    Aliases act as placeholders for real hosts, networks, or ports and help in reducing the number of changes required when the host, network, or port changes. The name of an alias can be used instead of specifying the host, network, or port for defining firewall rules.
+
+Lab Tasks
+
+    1. Click AD Domain Controller to launch AD DomainController VM. Click Ctrl+Alt+Delete.
+
+
+    2. By default NDE\Administrator account is selected, click admin@123 and press Enter to login.
+
+
+    3. If the network screen appears, click Yes.
+
+        Click Admin Machine-1 to launch AdminMachine-1 VM.
+
+        If you are already logged into the Admin Machine-1, then skip to Step#5.
+
+
+    4. Click Ctrl+Alt+Delete. By default Admin account is selected, click admin@123 and press Enter to login.
+
+  
+    5. If the network screen appears, click Yes.
+
+        Open the Google Chrome browser, and type www.rediff.com and hit Enter, the rediff.com website opens.
+
+
+    6. Close the browser. This infers that the www.rediff.com website is accessible to users. You can block access to this website using the pfsense firewall as follows.
+
+        Open the Google Chrome browser, and type https://10.10.1.1 and hit Enter to access the web interface of pfSense.
+
+
+    7. The Privacy error shows click Advanced button and click on Proceed to 10.10.1.1 (unsafe) link.
+
+
+    8. The login page appears, use the Username as admin and Password as admin@123. Click SIGN IN.
+
+
+    9. The pfSense home page will appear as shown in the screenshot below.
+
+
+    10. Navigate to the Firewall-->Aliases option menu from the main menu to add the list of websites for restricting access.
+
+
+    11. The Firewall/ Aliases/ IP page will appear. Click on the Add button.
+
+
+    12. Next, we will check the domain IP address of (www.rediff.com) website to block. Minimize the browser.
+
+      To check the domain address of rediff.com, we need to ping the domain. To open the command prompt, type cmd in the windows search option and click Command Prompt app.
+
+
+    13. The Command Prompt will appear. To ping the domain name, type the command ping rediff.com, and press Enter as shown in the below screenshot.
+
+      The result of ping rediff.com shows the IP address of the rediff.com server. Note down the IP address to include it in the aliases list of pfSense firewall.
+
+      Ensure that you have added all IP addresses related to rediff.com. Because, sometimes, one domain name might have multiple IP addresses and these IP addresess are changed timely. Similarly, you can add other unwanted hosts also within the alias.
+
+
+    14. IP address may differ as shown in the above screenshot. Ensure that you have noted all IP addresses related to rediff.com. Because, sometimes, one domain name might have multiple IP addresses.
+
+        Next, switch to the Google Chrome web browser and add the following details. Under the Properties section, enter the following in the respective fields as shown in the following screenshot.
+
+        Name: BlockedWebsites
+
+        Description: Restrict the access of unwanted websites
+
+        Type: Host(s)
+
+        Under the Host(s) section, add domain url and IP addresses for the aliases list:
+
+        IP or FQDN: www.rediff.com
+
+        Description: Site Url
+
+        Click Add Host button and add following IP address and description.
+
+        IP or FQDN: 84.53.185.208 (Viewed rediff.com IP address from Command Prompt)
+
+        Description: Site IP address
+
+
+
+    15. Click Save.
+
+        Click on Apply Changes button.
+
+
+
+    16. You will see the following message:
+
+        The changes have been applied successfully. The firewall rules are now reloading in the background. Monitor the filter reload process.
+
+
+    17. Next, we will add a firewall rule in pfSense to block the websites listed in the aliases. To add the rule, click on Firewall-->Rules from the main menu in the pfSense web interface as shown in the screenshot below.
+
+
+    18. The Rules page will appear. Select the LAN option to see the default rules list as shown in the screenshot below.
+
+
+    19. Click upper arrow Add to set a new rule on top of the default rule.
+
+         Under Edit Firewall Rule section, set below details.
+
+        Action: Block
+
+        Interface: LAN
+    
+        Address Family: IPv4
+  
+        Protocol: TCP/UDP
+
+        Under Source section select any from the dropdown.
+
+
+    20. Under Destination, select Single host or alias from the dropdown and type BlockedWebsites in the text box, slect Destination Port Range as any.
+
+
+    21. Scroll down, enter the text Restrict access to unwanted Websites in the Description field, and click Save.
+
+
+    22. The page will redirect to the Firewall/ Rules page. Click Apply Changes.
+
+
+    23. The firewall rule has been successfully created as shown in the screenshot below.
+
+
+    24. Close all the opened windows.
+
+        Next, click Web Server to launch Web Server VM.
+  
+        If you are already logged into the Web Server machine, then skip to Step#32.
+
+
+
+    25. Click Ctrl+Alt+Delete. By default Administrator account is selected, click admin@123 and press Enter to login.
+
+
+    26. Open the browser and type www.rediff.com to check if rediff is accessible. You will see the following message: This site can't be reached.
+
+
+    27. This indicates that the firewall is blocking the website listed in the firewall rule.
+
+        Close all open windows.
+
+Question
+
+Use the pfSense Firewall alias to block access to website www.rediff.com in Admin Machine-1. Enter the BIOS version of the pfSense machine.
+

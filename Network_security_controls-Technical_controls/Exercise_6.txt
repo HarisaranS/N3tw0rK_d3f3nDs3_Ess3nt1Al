@@ -1,0 +1,448 @@
+Exercise 6: Implementing Network-Based IDS Functionality using Suricata IDS
+Real-time Intrusion Detection is a requirement for today's networks. With the help of various tools and techniques, it is possible identifying known and potentially harmful attacks.
+
+Lab Scenario
+
+    Network defenders can use Suricata for real-time Intrusion Detection System (IDS), inline Intrusion Prevention System (IPS), Network Security Monitoring (NSM), and offline pcap processing.
+
+Lab Objectives
+
+    This lab will demonstrate how to use Suricata IDS.
+
+    In this lab, you will learn how to:
+
+    Use the intrusion detection tool Suricata
+    Review information in the Suricata Logs.
+    Overview of Suricata IDS
+
+    Suricata is an open-source network intrusion prevention system. It is a fast and robust network threat detection engine. Suricata uses rules and signature language for inspecting network traffic. The IDS performs intrusion detection and attempts to stop detected incidents. Suricata supports standard input-output formats such as YAML and JSON, which can be easily integrated with various SIEM tools like Splunk, Logstash/Elasticsearch, and Kibana.
+
+Lab Tasks
+
+      1. If you are already logged into the Admin Machine-1, then skip to Step#3.
+      
+        Click Admin Machine-1 to launch Admin MAchine-1 VM.
+
+
+      2. Click Ctrl+Alt+Delete. By default, Admin account is selected, click admin@123 and press Enter to login.
+
+
+      3. Next, install Splunk Enterprise SIEM, to view the captured Suricata logs in SIEM.
+
+        Navigate to Z:\NDE-Tools\NDE Module 05 Network Security Controls - Technical Controls\Splunk Enterprise.
+
+
+      4. Double-click splunk-8.0.1-6db836e2fb9e-x64-release.msi to start the installation. If the Open File - Security Warning pop-up appears, click Run.
+      
+        If a "SmartScreen has prevented the app from running" message appears, click More info, and then click Run anyway.
+      
+        The Splunk Enterprise Installer window appears. Click checkbox to accept the license agreement and click Next.
+
+
+      5. Enter the credential for Splunk Enterprise with username admin, password and confirm password as admin@123. Click Next.
+
+
+      6. Click Install to install Splunk Enterprise.
+
+
+      7. The User Account Control pop-up window appears; click Yes to continue.
+
+
+      8. Wait for the installation to complete. Click Finish to complete the Splunk Enterprise setup.
+
+
+      9. Splunk Enterprise launches in your default browser.
+
+        The First time signing in? page appears. Enter the username (admin) and password (provided while installation as admin@123) in their respective fields and click Sign In.
+
+
+      10. You will be successfully logged in to Splunk Enterprise.
+
+        If Helping You Get More Value from Splunk Software window appears click on Got it!, in Important changes coming! window click on Don't show me this again.
+
+
+      11. Close the browser, to increase the default maximum number of concurrent of searches per CUP in Splunk Enterprise, navigate to C:\Program Files\Splunk\etc\system\default.  
+
+        If the permission alert window opens, click Continue to access the Splunk folder.
+
+
+      12. Open limits.conf with Notepad++.
+
+        If Notepad++ update pop-up appears click No.
+
+
+      13. Go to line number 145 and set max_searches_per_cpu=2; click save and close the file.
+
+
+      14. Restart the Admin Machine-1
+
+        The Suricata IDS configuration needs to be on the web server; therefore, we need to configure the Suricata IDS on Web Server.
+
+        Click Web Server to launch WebServer VM.
+
+        If you are already logged into the Web Server machine, then skip to Step#22.
+
+
+      15. Click Ctrl+Alt+Delete. By default Administrator user is selected type password as admin@123 and press Enter.
+
+
+        Navigate to Z:\NDE Module 05 Network Security Controls - Technical Controls\Suricata and copy npcap-0.99-r7.exe
+
+
+      16. Paste the npcap-0.99-r7.exe file on the desktop.
+
+        Npcap is a tool used for network packet capturing and injection library for Windows.
+
+        Suricata uses npcap for capturing network packets and alerts. The following steps demonstrate the installation of the npcap tool.
+
+        Double click on npcap-0.99-r7.exe. Click on I Agree to continue the installation.
+
+        If Security Warning popup appears, click Run.
+
+
+      17. Check Install Npcap in WinPcap API-compatible Mode, and click Install.
+
+
+        The installation will start in a few seconds. Once the installation is completed successfully, click Next to continue.
+
+
+      18.Click Finish to complete the installation.
+
+        Navigate to Z:\NDE Module 05 Network Security Controls - Technical Controls\Suricata and copy Suricata-4.1.4-1-64bit.msi
+
+
+      19.Paste the Suricata-4.1.4-1-64bit.msi file on the desktop.
+
+        Double click Suricata-4.1.4-1-64bit.msi. The Suricata.IDS/IPS2.1.2-1-64bit Setup window will appear. Click Next.
+
+
+      20.Check I accept the terms in the License Agreement to accept the license, and click Next.
+
+
+      21. Click Next to continue the installation as shown in the  below.
+
+
+      22. Click Install to continue the installation process.
+
+
+      23. Click Finish to complete the installation process.
+
+
+      24. After Suricata IDS is successfully installed, the Suricata directory will be created under the C:\Program Files\Suricata.
+
+
+      25. From Windows search, open Notepad and save the empty threshold.config file under C:\Program Files\Suricata\ location as shown in the  below (Ensure that you have selected All Files in the Save as type: option while saving the file).
+      
+
+      26. The threshold.config file will be created as shown in the  below.
+
+
+      27. The Suricata IDS generates the alert based on the ruleset. A network defender can set the custom rule using the .rule file as shown in the following steps.
+      
+          First, the local.rule file needs to be created. The local.rule file includes custom rules. We can create 'n' number of files for various rules (the rule file must have a .rule extension).
+          
+          Here, we have created a rule for generating a PING alert.
+          
+          Open Notepad, and type the following:
+          
+          TypeCopy
+          alert tcp any 21 -> any any (msg:"ET SCAN Potential FTP Brute-Force attempt"; flow:from_server,established; dsize:<100; content:"530 "; depth:4; pcre:"/530\s+(Login|User|Failed|Not)/smi"; classtype:unsuccessful-user; threshold: type threshold, track by_dst, count 5, seconds 300;)
+
+
+      28. Save the file as local.rules under the C:\Program Files\Suricata\rules location as shown in the  below (Ensure that you have selected All Files in the Save as type option while saving the file).
+
+
+      29. Navigate to C:\Program Files\Suricata, and open suricata.yaml file in Notepad++.
+
+
+          The suricata.yaml file opens in Notepad++.
+
+          If Notepad++ update pop-up appears click No.
+          
+          To comment on the default rules files, select line numbers 1866 to 1910, navigate to the Edit menu, and select Comment/Uncomment->Block Comment as shown in the  below.
+
+
+          Add - local.rules below the line number 1865 as shown in the  below, and click Save.
+
+
+
+      30. lose the opened folders and files.
+
+          Navigate to C:\Program Files\Suricata\log. Observe that there is no log file under the log\files directory.
+          
+          We will capture the Suricata logs in Splunk, next we forward Suricata logs to Splunk on the monitoring machine using Splunkforwarder.
+          
+          To install Splunk forwarder, Navigate to Z:\NDE Module 05 Network Security Controls - Technical Controls\Splunk Forwarder
+          
+          Double-click on splunkforwarder-7.3.2-c60db69f8e32-x64-release.msi.
+
+
+
+      31. If a security warning pop-up appears, click on Run.
+  
+          Once the UniversalForwarder Setup window appears, check Check the box to accept the License Agreement and click on Customize Options.
+  
+
+          Leave the installation path set to the default location and click on Next.
+
+
+
+      32.Click on Next in the Splunk certificate section.
+
+
+
+      33. In the next step, select the Local System radio button to install Universal Forwarder as a Local System and click on Next.
+    
+
+      34. Next, check all entities under Windows Event Logs, Active Directory Monitoring and Performance Monitor and click on Next.
+
+
+      35. Create credentials for the administrator account; type username "admin" and password "admin@123" and click on Next.
+
+
+      36. Leave the Deployment Server section without issuing the deployment IP and port number details, and click on Next.
+
+
+      37. In the Receiving Indexer section, enter the IP address for Admin Machine-1, namely, 10.10.1.2 in the Hostname or IP field; enter Port 9997 in the port field and click on Next.
+
+
+      38. Once you are through with the configuration, click on Install. At this time, if a User Account Control pop-up appears, click on Yes.
+
+
+      39. Click on Finish after the installation completes.
+
+
+      40. You do not need any explicit configuration for Splunk Forwarder to collect Windows event logs, since Splunk Forwarder has default configuration done during installation. You need to configure Splunk Forwarder explicitly to collect logs from IIS and Snort IDS.
+      
+          To configure Splunk Universal Forwarder to collect IIS logs from the Web Server machine, go to the Web Server VM.
+          
+          Navigate to C:\Program Files\SplunkUniversalForwarder\etc\system\local, right-click on inputs.conf, and then on Edit with Notepad++.
+
+
+      41. Add the following lines in the inputs.conf file like in the below .
+          
+          TypeCopy
+          [monitor://C:\inetpub\logs\logfiles]
+          sourcetype=iis
+          ignoreOlderThan =14d
+          host = WebServer
+
+      42. Click on Save to save the file and close it.
+      
+        Right-click on outputs.conf, and then on Edit with Notepad++.
+
+
+
+      43. Add the following lines in the outputs.conf file, as shown in the  below.
+          
+          TypeCopy
+          [iis*]
+          Pulldown_type=true
+          MAXTIMESTAMPLOOKAHEAD =32
+          SHOULD_LINEMERGE = False
+          CHECK_FOR_HEADER
+          REPORT - iis2 =iis2
+          
+      44. Click on Save to save the file and then Close it.
+
+      45. Open Notepad and type the below code.
+
+          TypeCopy
+          [iis*]
+          Pulldown_type=true
+          MAXTIMESTAMPLOOKAHEAD =32
+          SHOULD_LINEMERGE =False
+          CHECK_FOR_HEADER
+          REPORT -iis2 =iis2
+          Save the notepad as props.conf at C:\Program Files\SplunkUniversalForwarder\etc\system\local path and close the file.
+
+      46. Ensure you have selected Save type as: All Files while saving the props.conf file.
+
+
+
+      47. Open Notepad again, add the following lines in the new opened file and save the file as transforms.conf at C:\Program Files\SplunkUniversalForwarder\etc\system\local.
+      
+      48. Ensure you have selected Save type as: All Files while saving the transforms.conf file.
+      
+          TypeCopy
+          [default]
+          host -WebServer
+          
+          [ignore_comments]
+          REGEX = ^#.*
+          DEST_KEY =queue
+          FORMAT =nullQueue
+          
+          [iis2]
+          DELIMS =" "
+          FIELDS = date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Cookie) cs(Referer) cs-host sc-status sc-substatus sc-win32-status sc-bytes cs-bytes time-taken
+      
+      
+      49. To forward the Suricata logs, navigate to the C:\Program Files\SplunkUniversalForwarder\etc\system\local folder and open inputs.conf file Edit with Notepad++. Add the following configuration lines of code at the end of the file and Save. Close the file.
+          
+          TypeCopy
+          [monitor://C:\Program Files\Suricata\log]
+          sourcetyp=suricatata
+          ignoreOlderThan =14d
+          host = WebServer
+      
+      
+      50. Close all open files in Notepad.
+      
+          Navigate to Windows Start -> Administrative Tools. Double-click on Services in the Administrative Tools window. The services window opens, search for SplunkForwarder Service.
+      
+      
+      
+      51. Click on SplunkForwarder Service, and then Restart the service.
+      
+          If an error occurs while restarting, click Start again.
+      
+      
+      
+      52. Next, launch Suricata to capture the network traffic, navigate to the desktop, and double click the Suricata-4.1.4-64bit IDS-IPS shortcut.
+      
+      
+      
+      53. The Suricata Command Prompt will open.
+      
+      
+      
+      54. Type the suricata.exe -c suricata.yaml -i 10.10.1.16 command to run Suricata for capturing network traffic, and press Enter.
+      
+      
+      
+            The Suricata engine will start. Leave the command prompt open and Suricata running.
+            
+            We need to perform the attack from the Attacker Machine to the Web Server. Suricata will then generate the alert and store it in the fast.log file.
+            
+            The fast.log file is the default alert log file that is already set into the suricatata.yaml file.
+            
+            Click Attacker Machine to launch AttackerMachine VM.
+            
+            Select username as Bob and type password as user@123 and press Enter.
+      
+      
+      
+      55. To perform a brute-force attack, use the tool Hydra from Ubuntu OS (Attacker Machine).
+      
+          Hydra uses two files for performing a brute-force attack. The first file has the list of usernames, and the second file has a list of passwords. Hydra uses these lists of usernames and passwords for performing a brute-force attack.
+          
+          Press ctrt + alt + t to open the terminal, type hydra -L 'wrd.txt' -P 'pwd.txt' ftp://10.10.1.16, and Press Enter.
+      
+      
+      
+      56. The Attacker Machine will try to match the combination of usernames and passwords with the Web Server.
+      
+          The matched username and password are shown in the terminal in green color.
+          
+          If Hydra does not display results on the first attempt, wait a few seconds and try running the command again.
+      
+      
+      
+      57. After the attack is complete, switch to Admin Machine-1 VM. Click Ctrl+Alt+Delete Link to login.
+      
+          If you are already logged into the Admin Machine-1, then skip to Step#92.
+      
+      
+      
+      58. By default the username Admin is selected type password admin@123 and press Enter.
+      
+      
+      
+      59. If the network screen appears, click Yes.
+      
+          Launch the web browser, and access Splunk Enterprise with the URL http://localhost:8000/en-US/account/login? and press Enter.
+      
+      
+      
+      60. Log in with the username admin and password admin@123
+      
+      
+      
+      61. If the Splunk Enterprise page is not opening, make sure the splunkd service is running. If not, then press "Windows+R" on your keyboard and type "services.msc". Click on OK. Next, the Services window opens. Search for the splunkd service and restart. Wait for the service to start.
+      
+          If Important Changes coming! pop-up appears, click Don't show me this again.
+          
+          The Splunk web console appears; click Settings menu, select Forwarding and receiving link under the DATA section.
+      
+      
+      
+      62.The Forwarding and receiving console will appear. This is where a new instance will be added to receive the data forwarded from Universal Forwarder. Click on the +Add new link in the bottom right corner to Configure receiving.
+      
+      
+      63. The Add new console appears; in the Listen on this port* field, type 9997 and click on Save.
+      
+      
+      64. Once the port is added, go to Apps menu, and then select Manage Apps.
+      
+      
+      65. The Apps console appears; click on the Enable link toward the extreme right associated with the SplunkForwarder application.
+      
+      
+      66. When the application is enabled, click on Edit properties under Actions column associated with SplunkForwarder.
+      
+      
+      67. The SplunkForwarder console appears; click on Yes under the Visible section, and then on Save.
+      
+      
+      68. Go to Settings and select Server controls under the SYSTEM section.
+      
+      
+      69. The Server controls console appears; click on Restart Splunk. A confirmation pop-up appears; click on OK.
+      
+      
+      70. Wait for few seconds, on a successful restart, a pop-up appears with the message "Restart successful. Click OK to log back into Splunk. Click on OK.
+      
+      
+      71. You will be redirected to the login page. Enter the user credentials(username admin and password admin@123) and click on Sign In.
+      
+      
+      
+      72. If Splunk is properly not restarted, click Restart Splunk again.
+      
+          Once you log in, click on Apps -> SplunkForwarder from menu.
+      
+      
+      
+      73. Make sure Splunk Forwarder service is running. If it is not running, start the Splunkforwarder service in Windows services.
+      
+          The Search console appears; click on Data Summary under the What to Search section.
+      
+      
+      74. The Data Summary pop-up appears. Select the Sources(_) tab, wait for sometime, and then click the C:\Program Files\Suricata\log\fast.log link to continue.
+      
+      
+      75. Once the fast.log file is selected, the page redirects to the search page and displays the detailed logs.
+      
+          The brute-force attempt was made from Attacker Machine (10.10.1.50) to the Web Server (10.10.1.16).
+          
+          The number of Events might vary in your lab environment.
+      
+      
+      76. Click on Statistics tab and Quick Reports.
+      
+      
+      77. You will be redirected to the host window, in the host window click on any value under Reports to see the graphical representation of that value. Here we are selecting Top values by time.
+      
+      
+      78. You will be redirected to Visualization tab where you can find the Line Chart of the selected option.
+      
+      
+      79. Click on back button on the chrome browser to get back to the Events tab.
+      
+      80. Click on All Fields option at the left panel of the window to select the options that can be visible in the events tab. Here we are selecting splunk_server option, after selecting the options close the Select Fields window.
+      
+      
+      81. We can see that the splunk_server (Admin-Machine-1) is visible in the Event tab.
+      
+      
+      82. Scroll the cursor under the Format Timeline option you can see that the events are recorded in hourly basis, in realtime the Administrator can just click on the time in which he wants to review the information.
+      
+      
+      83. Close the web browser in Admin-Machine-1 VM.
+      
+      84. Close all the opened windows in Web Server VM.
+
+Question 
+
+Install and configure Splunk Enterprise SIEM, Npcap, Suricata IDS, and Splunkforwarder tools to forward Suricata logs to Splunk. Perform a brute-force attack from the Ubuntu machine (Attacker Machine) using the Hydra tool. Configure the forwarding and receiving option in Splunk to receive the data forwarded from Universal Forwarder. Enter the name of the default alert log file in which Suricata stores logs.

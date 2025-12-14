@@ -1,0 +1,155 @@
+Exercise 5: Implementing Host-Based IDS Functionality using Wazuh HIDS
+Host Intrusion Detection is a requirement for today's networks. Host-based Intrusion Detection Systems (HIDS) detect the events on the server and generate alerts. Attacks and threats can be monitored easily because the full communication stream can be inspected using HIDS.
+
+Lab Scenario
+
+    Intrusion Detection Systems (IDS) help monitor network activity. HIDS enables a network defender to monitor the network traffic for malicious activity or policy violations. Using Wazuh enables network defenders to perform continuous monitoring and respond to advanced threats.
+
+Lab Objectives
+
+    This lab will demonstrate the use of Wazuh HIDS and agent to capture network traffic and show how to monitor the captured traffic for malicious activities. In this lab, you will learn:
+
+    Installing and configuring Wazuh HIDS and Wazuh agent
+    Monitoring network traffic for malicious activity using Sguil
+    Overview of the Lab
+
+    Wazuh (OSSEC) is an open-source HIDS. The Wazuh agent runs at a host-level, combining anomaly and signature-based technologies to detect intrusions or software misuse. It can also be used to monitor user activities, assess system configuration, and detect vulnerabilities. Sguil is an open-source interface for network security monitoring and event-driven analysis of IDS alerts (Snort and Barnyard). It consists of an intuitive GUI for accessing real-time events, session data, and network traffic capture.
+
+Lab Tasks
+
+      1. Click Admin Machine-2 to launch AdminMachine-2 VM.
+      
+        Log in with the username sam and password admin@123.
+      
+      
+      2.To configure Wazuh HIDS for detecting endpoint suspicious activity, right-click on the desktop, and select the Open Terminal option from the pop-up list as shown in the screenshot below.
+      
+      
+        When the terminal window appears, type command sudo su, and press the Enter button. When it prompts for the password, type the system password admin@123 and press Enter.
+      
+      
+      3.To add the Web Server VM as the Wazuh agent, type command /var/ossec/bin/manage_agents and press Enter as shown in the screenshot below.
+      
+      
+      4.The list of options is displayed. Type A to add the new agent (Web Server) for the monitor and hit Enter.
+      
+        You will be prompted to add new agent details. Provide the following details as shown in the screenshot below, and hit Enter:
+      
+        A name for the new agent: WebServer
+        The IP address of the new agent: 10.10.1.16
+        Confirm adding it? (y/n): y
+        5.5.5.png
+      
+      5.The Wazuh agent manager will add a new agent. The agent ID here is 001. (It may differ in your lab).
+      
+      
+      6.To extract the key for the agent (WebServer), type E and hit Enter. You will be prompted to provide the agent ID to extract the key. Type 001 (In your lab, it may differ).
+      
+      
+      7.Hit Enter to continue, and type Q to quit agent configuration. Copy the extracted key.
+      
+      
+      8.Open another terminal window and type sudo gedit key.txt. Hit Enter. If prompts for password type admin@123 as password.
+      
+      
+      9.The new key.txt file opens. Paste the copied extracted key.
+      
+      
+      10.Save the file. Close all windows. Open home folder from Desktop, copy key.txt file to Desktop.
+      
+      
+      11.Open the home folder from the Desktop, and press CTRL + L This will enable the search textbox. Type smb://10.10.1.16, and press the Enter button.
+      
+      
+      12.Alternatively, open the Home folder from the Desktop. In the file manager, click Connect to Server in the navigation pane. In the address field, enter: smb://10.10.1.16 and proceed to Step 15
+      
+        If prompted to enter the password, type the username Administrator and password admin@123. Click Connect.
+      
+      
+      13.The Windows share folder opens. Go to the desktop and copy the key.txt file. Switch back to the Windows share folder, open the C$ folder, and paste the key.txt file.
+      
+      
+      14.We have shared the agent key to Webserver. To configure the firewall to communicate with the agent, open terminal and type sudo ufw allow proto udp from 10.10.1.16 to 10.10.1.79 port 1514 as shown in the screenshot below, and press the Enter button, if prompts for the password, then type admin@123 as password and press Enter button.
+      
+      
+      15.The firewall will be configured to allow communication between Web Server and Admin Machine-2.
+      
+        Click Web Server VM.
+      
+      16.If you are already logged into the Web Server, then skip to Step#21.
+      
+      
+      17.Click Ctrl+Alt+Delete. The default username Administrator is selected type admin@123 as password and press Enter.
+      
+      
+      18.Navigate to Z:\NDE Module 05 Network Security Controls - Technical Controls\Wazuh agent\. Double click Wazuh-agent-3.8.2-1, and follow the wizard-driven installation.
+      
+      
+      19.If an Open File-Security Warning appears click Run.
+      
+        Check I accept the terms in the License Agreement, and click Install.
+      
+      
+      20.Check Run Agent configuration interface, and click Finish to complete the installation.
+      
+      
+      21.Once the installation is complete, the Wazuh Agent Manager window will open.
+      
+        Type the IP address (10.10.1.79) of the Wazuh manager that is Admin Machine-2 into the Manager IP field. Copy the agent key from the shared C:\key.txt file, and paste into the Authentication key field. Click Save.
+      
+      
+      22.Click OK to confirm the importing key.
+      
+        Manager IP will be added. By default, the Wazuh agent manager will be stopped. Select Manage --> Start from the main menu, and click OK for the prompted message.
+      
+      
+      23.Click Refresh to view the Running status of the agent.
+      
+      
+      24.Switch to Admin Machine-2, login with password admin@123.
+      
+          Open terminal in root privileges using sudo su command and type /var/ossec/bin/ossec-control restart, press Enter.
+      
+      
+      25.To check whether the agent is active, type /var/ossec/bin/agent_control -l and press Enter. You will see the WebServer agent which we added as Active.
+      
+      
+      26.Click Attacker Machine to launch AttackerMachine VM, select username as Bob and type password as user@123, press Enter.
+      
+      
+      27.Copy the wrd.txt file and pwd.txt file from the home directory (bob) and paste on the Desktop.
+      
+      
+      28.Launch the terminal and type the below command to perform FTP attack on Webserver.
+      
+        hydra -L 'wrd.txt' -P 'pwd.txt' ftp://10.10.1.16
+      
+      
+      29.Reexecute the command if you don't get the result showed in the above screenshot.
+      
+        This indicates that the attacker can extract the FTP username and password over the network using insecure ports.
+      
+        Switch to Admin Machine-2, login with password admin@123.
+      
+      
+      30.Launch the sguil application from the desktop.
+      
+        The Sguil window appears. Type the username martin and password user@123. Click the OK button.
+      
+      
+      31.Network interfaces will be displayed. Click the Select All button.
+      
+      
+      32.All available interfaces will be selected. Click the Start SGUIL button.
+      
+        You will see the Sguil window as shown in the screenshot below.
+      
+      
+      33.The Windows Login Failure event is captured by the Wazuh agent.
+      
+        You can observe the Dst IP 10.10.1.16 OSSEC alert.
+      
+        Click on the OSSEC Windows: Logon Failure-unknown user record from the list and check the Display Detail pane/option.
+      
+      
+      As described above, a network defender can use Wazuh to detect malicious activity on the host machine.

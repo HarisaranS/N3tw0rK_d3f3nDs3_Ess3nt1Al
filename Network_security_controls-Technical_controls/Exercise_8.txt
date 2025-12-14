@@ -1,0 +1,206 @@
+Exercise 8: Establishing Virtual Private Network Connection using SoftEther VPN
+SoftEther VPN Server, Client, and Bridge are free and open-source software. SoftEther VPN is a strong tool that can be used to build a VPN tunnel.
+
+Lab Scenario
+
+        In an organization's network infrastructure, there are firewalls to isolate internal and external network traffic to ensure security. Organizations use firewalls, proxies, and Network Address Translators (NATs) not only to resolve security issues but also to share IP addresses with users in the office. These devices play a crucial role nowadays.
+
+Lab Objectives
+
+        This lab will demonstrate how to establish a Virtual Private Network (VPN) connection using SoftEther VPN.
+
+Overview of SoftEther VPN
+
+        SoftEther VPN is one of the most powerful and easy-to-use VPN software worldwide. SoftEther VPN is freeware. One of the key features of SoftEther VPN is the transparency for firewalls, proxy servers, and NATs. NATs are sometimes implemented on broadband router products.
+        
+        SoftEther VPN uses HTTPS protocol in order to establish a VPN tunnel. HTTPS (HTTP over SSL) protocol uses the 443 of TCP/IP port as destination. This port is well-known, and almost all firewalls, proxy servers, and NATs can pass packets using the HTTPS protocol.
+
+Lab Tasks
+
+          1. Before starting this lab exercise, make a note of your public IP. To know your public IP, open up any web browser and browse for google.com. In the Google search, type what is my IP and click search. Your public IP will be displayed.
+          
+          2. By default PfSense Firewall is selected, click AD Domain Controller to launch ADDomainController VM. Click Ctrl+Alt+Delete.
+          
+          
+          3. By default NDE\Administrator account is selected, click admin@123 and press Enter to login.
+          
+          
+          4. If the network screen appears, click Yes.
+          
+          5. To install SoftEther VPN Server, navigate to Z:\NDE Module 05 Network Security Controls - Technical Controls\SoftEther VPN\SoftEther VPN Server. Double click softether-vpnserver_vpnbridge-v4.30-9696-beta-2019.07.08-windows-x86_x64-intel.
+          
+          6. If the Open File - Security Warning window appears, click Run.
+          
+          7. You can download the latest version of SoftEther VPN Server from https://www.softether-download.com. If you use the downloaded file, the screenshots in the lab may vary.
+          
+          8. The SoftEther VPN Setup Wizard appears. Click Next.
+          
+          9. In the Select Software Components to Install wizard, SoftEther VPN Server is selected by default. Retain the default selection and click Next.
+          
+          
+          10. The End User License Agreement wizard appears. Check I agree to the End User License Agreement. Click Next. Follow the wizard-driven installation steps to install SoftEther VPN Server Manager.
+          
+          
+          11. The Important Notice window appears. Click Next.
+          
+          
+          12. Continue the installation until you see the Setup Finished wizard appears. Ensure that the Start the SoftEther VPN Server Manager option is checked to launch it automatically. Click Finish.
+          
+              Alternatively, you can also launch the application by double-clicking the shortcut icon on the Desktop.
+          
+          
+          13. The SoftEther VPN Server Manager window appears. Click the Connect button to configure the VPN Server.
+          
+              If Update Available pop-up appears click on Do Not Show this Message Again
+          
+          
+          14. Connecting for the first time will prompt you to set the Administrator password for the Server Manager. Type in the password in the New Password field, and retype the same password in the Confirm Password field (In this lab, the password was set to user@123). Click OK.
+          
+          
+          15. The password has been changed. A confirmation pop-up appears. Click OK.
+          
+          
+          16. The SoftEther VPN Server / Bridge Easy Setup wizard appears. Check Remote Access VPN Server. Click Next.
+          
+          17. If Update Available pop-up appears click on Do Not Show this Message Again
+          
+          
+          18. The SoftEther VPN Server Manager pop-up appears. Click Yes.
+          
+          
+          19. The Easy Setup - Decide the Virtual Hub Name pop-up appears. Specify the Virtual Hub Name in the field (In this exercise, the name is set as NDE-VPN) and click OK.
+          
+          
+          20. The Dynamic DNS Function window appears. Click Exit to continue.
+          
+          
+          21. The IPsec / L2TP / EtherIP / L2TPv3 Server Settings window appears. Check Enable L2TP Server Function (L2TP over IPsec). Retain the other settings as default and click OK.
+          
+          
+          22. The VPN Azure Service Settings wizard appears. You can choose any option according to your organization network policy. In this exercise, we select the Disable VPN Azure radio button. Click OK.
+          
+          
+          23. The VPN Easy Setup Tasks wizard appears where we create users who can access the organization network through a VPN. To create new users, click Create Users.
+          
+          
+          24. The Create New User wizard appears. Fill in the required details. Here, we have created a new username martin and password user@123. Click OK.
+          
+          
+          25. A pop-up notifying that the user has been created appears. Click OK.
+          
+          
+          26. The Manage Users window appears. Here, you can create new users, edit created users, view user information, and remove users. Click the Exit button.
+          
+          
+          27. The VPN Easy Setup Tasks wizard appears. Click Close.
+          
+          
+          28. The Manage VPN Server "localhost" dashboard appears. Here, you can see the connected users through the VPN network. You can also manage the VPN settings using different options on this dashboard.
+          
+          
+          29. Click Admin Machine-1 to launch AdminMachine-1 VM. Click Ctrl+Alt+Delete.
+          
+          
+          30. By default Admin account is selected, click admin@123 and press Enter to login.
+          
+          
+          31. If the network screen appears, click Yes.
+          
+              To install the SoftEther VPN client, navigate to Z:\NDE-Tools\NDE Module 05 Network Security Controls - Technical Controls\SoftEther VPN\SoftEther VPN Client.
+          
+              Double-click softether-vpnclient-v4.30-9696-beta-2019.07.08-windows-x86_x64-intel.exe.
+          
+          
+          32. You can download the latest version of SoftEther VPN Client from https://www.softether-download.com. If you use the downloaded file, the screenshots in the lab may vary.
+          
+              If Open File - Security Warning window appears, click Run.
+          
+              The SoftEther VPN Setup Wizard appears. Click Next.
+          
+          
+          33. If User Account Control window appears, click Yes.
+          
+              The Select Software Components to Install wizard appears. Choose the SoftEther VPN Client. Click Next.
+          
+          
+          34. Follow the wizard-driven installation steps to complete the installation process. When the Setup Finished wizard appears, ensure that Start the SoftEther VPN Client Manager is checked to launch the application automatically. Click Finish.
+          
+          
+          35. Alternatively, you can also launch the application by double-clicking the shortcut icon on the desktop or from the Start menu installed apps.
+            
+              The SoftEther VPN Client Manager window appears.
+          
+              If Update Available pop-up appears click on Do Not Show this Message Again
+          
+          
+          36. Double click Add VPN Connection to add a system to the VPN network.
+          
+              Before creating a VPN Connection Setting, we need to create a Virtual Network Adapter. When the SoftEther VPN Client Manager prompts to create a Virtual Network Adapter, click Yes.
+          
+          
+          37. The Create New Virtual Network Adapter pop-up appears. Type the name in the Virtual Network Adapter Name field. Click OK. Retain the default settings.
+          
+              The Virtual Network Adapter Name should be VPN or should range from VPN2 to VPN127 as shown in the pop-up (You can create a maximum of 127 Virtual Network Adapters).
+          
+          
+          38. The SoftEther VPN client will create a new Virtual Network Adapter. Wait until the process is completed.
+          
+              The newly created Virtual Network Adapter can be seen in the lower pane of the SoftEther VPN Client Manager window with the assigned Status, MAC Address, and Version. In this exercise, the newly created Virtual Network Adapter is VPN Client Adapter - VPN.
+          
+          
+          39. Next, we need to configure the adapter. Double-click on the newly created Virtual Network Adapter.
+          
+              The New VPN Connection Setting Properties wizard appears.
+          
+              In the Setting Name field, provide a name for the VPN Connection [Martin VPN]. Under the Destination VPN Server section, type your public IP in the Host Name field [10.10.1.19]. You can choose any port from the Port Number dropdown [443]. In the Virtual Hub Name field, choose the appropriate name. In this exercise, we have created a virtual hub name NDE-VPN in Step 14. If you have created multiple virtual hubs, choose the appropriate one. Retain the other default settings.  
+          
+              On the right side in the User Authentication Setting:, type the username and password of the user that you have created in Step 19. In this exercise, the username is martin and the password is user@123. Click OK and retain the other default settings.
+          
+          
+          40. A newly created VPN connection appears in the SoftEther VPN Client Manager window with the status showing as Offline.
+          
+              Right-click Martin VPN and select Connect from the context menu to connect the organization network through the VPN.
+          
+          
+          41. If the Login to 10.10.1.19 pop-up window appears and if it keeps connecting, type the User Name and Password. (Here, we use the user name as martin and password as user@123 used in the Step 40).
+          
+          42. The Connected to VPN Server pop-up appears, requesting to assign an IP. Wait until the process is completed.
+          
+          
+          43. The status of the VPN changes to Connected from Offline.
+          
+          
+          44. Switch back to the AD Domain Controller VM where the SoftEther VPN Server is installed. See the active sessions using the VPN. You can see 0 Sessions.
+          
+          
+          45. Click the Refresh button. You can see the active sessions that are accessed by users.
+          
+          
+          46. To view and manage the sessions, click Manage Virtual Hub button or double-click the available VPN Hub in the dashboard. The Management of Virtual Hub - (Virtual Hub Name) window appears.
+          
+          
+          47. Traverse through all the required options available in the wizard. You can manage the sessions and settings of the VPN Network.
+          
+          48. For instance, to access the Manage Sessions option, click the Manage Sessions button.
+          
+          
+          49. The Manage Sessions window appears, where you can see connected users through the VPN Network. You can use different options to manage the VPN users.
+          
+          
+          50. Click on Exit to close the Manage Sessions window.
+          
+          
+          51. Now in the Management of Virtual Hub - (Virtual Hub Name) window click the Manage Users button.
+          
+          
+          52. The Manage Users window appears, where you can see the details of the users.
+          
+          
+          53. Click on Exit to close the Manage Users window to return to Management of Virtual Hub - (Virtual Hub Name) window.
+          
+          
+          54. In the same way you can explore different options in the Management of Virtual Hub - (Virtual Hub Name) window like Manage Groups, Manage Access lists etc.
+
+Question 
+
+Install and configure SoftEther VPN Server available at Z:\NDE-Tools\NDE Module 05 Network Security Controls - Technical Controls\SoftEther VPN\SoftEther VPN Server on the AD Domain Controller machine to establish a virtual private network (VPN) connection. Create users who can access the organization's network through a VPN. Now, install and configure the SoftEther VPN client available at Z:\NDE-Tools\NDE Module 05 Network Security Controls - Technical Controls\SoftEther VPN\SoftEther VPN Client on Admin Machine-1 and try to connect to the VPN server. Enter the VPN server hostname / IP address.

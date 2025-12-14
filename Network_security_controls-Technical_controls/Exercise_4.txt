@@ -1,0 +1,226 @@
+Exercise 4: Implementing Network-Based Firewall Functionality: Blocking Insecure Ports using pfSense Firewall
+The pfSense firewall/router helps network defenders in monitoring and controlling the inbound and outbound traffic of the network connections.
+
+Lab Scenario
+
+    To keep the computer resources of the organization secure, network defenders need to configure outbound traffic because outbound traffic leaves the network vulnerable to malware that targets organizational resources. These threats can be protected by using firewall rules. The pfSense firewall allows specific traffic on specific ports while blocking all other traffic.
+
+Lab Objectives
+
+    This lab will demonstrate how to block insecure ports using the pfSense firewall and protect endpoints within the network using the pfSense firewall.
+
+Overview of Firewall Rules
+
+    Firewall rules can be created for either inbound or outbound traffic.
+
+    An inbound firewall rule protects the network against incoming malicious traffic from the Internet or other network segments.
+    An outbound firewall protects against outgoing traffic originating inside an enterprise network. Firewall rules can be configured to specify computers, users, programs, services, ports, and protocols.
+
+Lab Tasks
+
+    1. If you have already launched AD Domain Controller, and Web Server in the previous exercise, skip to to Step#5.
+
+    2. Click AD Domain Controller to launch ADDomainController VM. Click Ctrl+Alt+Delete link to login to ADDomain Controller.
+
+
+    3. By default, NDE\Administrator account is selected, click admin@123 and press Enter to login.
+
+
+    4. If the network screen appears, click Yes.
+
+        Click Web Server to launch WebServer VM. Click Ctrl+Alt+Delete.
+
+
+    5. By default, Administrator account is selected, click admin@123 and press Enter to login.
+
+
+    6. In WebServer machine, to open the browser, double click the Google Chrome icon on the desktop.
+
+        Type http://certifiedhacker.com/ in the address bar, and press Enter. You will be able to access the web page as shown in the below :
+
+
+    7. Next, we shall create a rule to restrict a user from accessing HTTP-enabled websites (by blocking port http 80), so that they can access only https-enabled websites on the Internet.
+
+        Click Admin Machine-1 to launch AdminMachine-1 VM.
+
+        If you are already logged into the Admin Machine-1, then skip to Step#10.
+
+
+    8. Click Ctrl+Alt+Delete. By default, the Admin account is selected, click admin@123 and press Enter to login.
+
+
+    9. If the network screen appears, click Yes.
+
+        To open the browser, double click the Google Chrome icon on the desktop.
+
+        Browse pfSense web interface. Type https://10.10.1.1 in the address bar, and press Enter. Click Advanced button and click proceed to 10.10.1.1 (unsafe) link.
+
+        The pfSense login page will appear. Type the username admin and password admin@123, and click the SIGN IN button as shown in the  below.
+
+
+    10. The pfSense Dashboard will appear. Navigate to Firewall-->Rules from the main menu.
+
+
+    11. The Firewall/Rules/WAN page will appear. Click the LAN option.
+
+
+    12. To create a rule, click the up arrow Add button.
+
+    13. Set following details under Edit Firewall Rule section
+
+      Action --> Reject
+
+      Interface -->LAN
+
+      Address Family -->IPv4
+
+      Protocol -->TCP/UDP.
+
+
+    14. Under Source section, select any from the dropdown as shown in the below .
+
+
+    15. Under Destination section, select any from the dropdown and set Destination Port Range to HTTPS (443) from the dropdown.
+
+
+    16. Scroll down. Under Extra Options, enter Rule for Rejecting any website using https (443) port in the Description field, and click Save.
+
+
+    17. The page will redirect to the Firewall/Rules/LAN page. Click Apply Changes.
+
+
+    18. The firewall rule has been successfully created.
+
+      Close browser window.
+
+      Switch back to Web Server VM.
+
+      In the Chrome browser (it is already opened or you can launch a new window), enter https://certifiedhacker.com/ in the address bar, and press Enter. You will see the message as This site can't be reached. This is because the pfSense firewall rule is now preventing port http.
+
+      If changes are not affecting, then reboot the pfSense firewall and clear the Chrome browser cache.
+
+
+    19. Close browser window.
+
+      Delete the firewall rules created in this exercise and previous exercise.
+
+      To delete the firewall rules, switch back to Admin Machine-1 VM. Repeat the steps from Step 10 to Step 12. Navigate to Firewall->Rules from the main menu.
+
+
+    20. The Firewall/Rules/WAN page will appear. Click the LAN option. Select both the created rules by checking the checkboxes against the rules. and click Delete button.
+
+
+    21. Click OK in the Rule deletion confirmation pop-up.
+
+    
+    22. The page will redirect to the Firewall/Rules/LAN page. Click Apply Changes.
+
+
+    23. The selected rules will be deleted.
+
+
+    24. To reboot the pf Sense, navigate to Diagnostics --> Reboot option from the main menu.
+
+
+    25. Click on Reboot button.
+
+
+    26. Click OK in the Reboot confirmation pop-up.
+
+
+    27. The pfSense firewall will reboot and load automatically.
+
+
+    28.The pfSense Sign in page will appear.
+
+      Now Open a new tab in chrome browser and type https://certifiedhacker.com/ in the address bar, and press Enter. You will be able to access the web page as shown in the below :
+
+
+    29. Close the tab and navigate to the pfSense Sign in page.
+
+      Now we will configure schedules for time based rules
+
+      Type the username admin and password admin@123, and click the SIGN IN button as shown in the  below.
+
+
+    30. The pfSense Dashboard will appear. Navigate to Firewall-->Schedules from the main menu.
+
+
+    31. Click + Add button in the Firewall/ Schedules window.
+
+
+    32. Firewall/ Schedules/ Edit window opens. Enter a name in Schedule Name section under Schedule Information and enter description in the Description field.
+
+      Schedule name must only contain letters and digits, no spaces. Here we have given name as WorkingHours and Normal Working Hours as Description.
+
+
+    33. Now set the Month by selecting a specific month and days, or by clicking the day of the week header for weekly recurring schedules.
+
+      Here we are selecting a single day in a month.
+
+
+    34. Choose a Start Time and Stop Time which control when the rule is active on the selected days. Enter an optional Time Range Description for this specific range.
+
+      The time cannot cross midnight on any day. A full day is 0:00 to 23:59
+
+      Make sure that the time you are selecting is 5 to 10 minutes ahead of the time while performing the lab.
+
+
+    35. Click on + Add Time to add the choices as range, and click Save.
+
+  
+    36. You will be redirected to the Firewall/ Schedules page with the new schedule listed.
+
+
+    37. To create a new firewall rule navigate to Firewall-->Rules from the main menu.
+
+
+    38. The Firewall/Rules/WAN page will appear. Click the LAN option.
+
+
+    39. To create a rule, click the up arrow Add button.
+
+      Set following details under Edit Firewall Rule section
+
+      Action --> Reject
+
+      Interface -->LAN
+
+      Address Family -->IPv4
+
+      Protocol -->TCP/UDP.
+
+  
+    40. Under Source section, select any from the dropdown as shown in the below .
+
+
+    41. Under Destination section, select any from the dropdown and set Destination Port Range to HTTPS (443) from the dropdown.
+  
+
+    42. Scroll down. Under Extra Options, enter Rule for Rejecting any website using http (80) port during Working Hours in the Description field, and click on Display Advanced.
+
+
+    43. In Advanced Options go to Schedule section and select the newly created WorkingHours Schedule from the drop down.
+
+
+    44. Leaving the other options set to defaults scroll down the page and click on Save.
+
+      The page will redirect to the Firewall/Rules/LAN page. Click Apply Changes.
+
+
+    45. Reload the webpage and open a new tab in chrome browser and type http://certifiedhacker.com/ in the address bar, and press Enter
+  
+      If a pop-up appears while reloading webpage click on Continue.
+
+      If changes are not affecting, then reboot the pfSense firewall and clear the Chrome browser cache.
+
+
+    46. You will see the message as This site can't be reached. This is because the pfSense firewall rule is now preventing port http.
+
+      Delete the newly created firewall rule before proceeding to the next lab.
+
+      Close the current tab and perform the steps 27 to Step 35 to delete the newly created rule and to reboot the pfSense firewall.
+
+Question 
+
+Use the pfSense Firewall rules to block access to HTTP-enabled websites (by blocking port HTTP 80) such as http://certifiedhacker.com in Admin Machine-1. Enter the Destination Port Range option you need to select under the Destination section of the Edit Firewall Rule window.

@@ -338,6 +338,3 @@ Question
 
 Install and configure Bevywise MQTT Broker on the Web Server machine and IoT simulator on Admin Machine-1. Both tools are available at Z:\NDE-Tools\NDE Module 09 IoT Device Security\Bevywise IoT Simulator on the client Admin Machine-1. Implement transport layer security (TLS)/secure sockets layer (SSL) on the virtual network. Enter the TCP port number used to communicate with the IoT virtual network devices over TLS/SSL communication.
 
-
-30 Minutes Remaining
-
